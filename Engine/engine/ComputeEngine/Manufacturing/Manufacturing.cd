@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Simulator.Production">
+    <Position X="11" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\Production.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Simulator.Factory">
+    <Position X="10.75" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACBAQEAAAAABBAAAAAAAAAABAAAAAAAAAgEAAgAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\Factory.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Production" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Simulator.Object">
+    <Position X="7.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAABIAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\Object.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Simulator.Atelier">
+    <Position X="1" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BBAAAAQAAAAgAAIAAAAAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\Atelier.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Simulator.Product">
+    <Position X="6.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAABAAAAAAIAAABAAACAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\Product.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Simulator.SemiProduct">
+    <Position X="3.25" Y="3" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAABAAAAAAAAAAAEAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\SemiProduct.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Atelier" />
+      <Property Name="Product" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Simulator.Worker">
+    <Position X="13.25" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAwAKIAAAgAICIQAEBAAAAAAQAAFAQABKAgAAAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\Worker.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Atelier" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Simulator.Warehouse">
+    <Position X="3" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\Warehouse.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Atelier" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Simulator.RawMaterial">
+    <Position X="3.25" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\RawMaterial.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="SemiProduct" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Simulator.Supplier">
+    <Position X="0.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAABAAABgEAAAEAAAAAAAAAAABAEAAABAAAAAAAAAAg=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\Supplier.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="RawMaterial" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Simulator.SubContractor">
+    <Position X="0.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAAAAAAACAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\SubContracter.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="SemiProduct" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Simulator.Machine">
+    <Position X="8.5" Y="3" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>IAEQABAKCABB0AACCBAEIAAgACAAAAIAAAAEAAAAAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\Machine.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Atelier" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Stratège.RMWarehouse">
+    <Position X="3" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\RMWarehouse.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="RawMaterial" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Stratège.PWarehouse">
+    <Position X="0.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\ProductWarehouse.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Product" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Stratège.SPWarehouse">
+    <Position X="5.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\SPWarehouse.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="SemiProduct" />
+    </ShowAsAssociation>
+  </Class>
+  <Interface Name="Simulator.ProductCosts" Collapsed="true">
+    <Position X="19.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAACAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\ProductCosts.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simulator.AtelierCosts" Collapsed="true">
+    <Position X="15.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAEAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\AtelierCosts.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simulator.WorkerCosts" Collapsed="true">
+    <Position X="17.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAgABAAAAAAAAAAAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\WorkerCosts.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simulator.Shift" Collapsed="true">
+    <Position X="15.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAEAAAEAAAAAAAAAEAAQAAAIAAAAAQAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\Shift.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Simulator.MachineCosts" Collapsed="true">
+    <Position X="17.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQBAAAAAAAAAAAAAAAAAAAAAAAAAJAAAAAAAAQAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\MachineCosts.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Simulator.QUALITY" Collapsed="true">
+    <Position X="19.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAYAAAAAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\QUALITY.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Simulator.CREDIT" Collapsed="true">
+    <Position X="15.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAIAAQAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\CREDIT.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Simulator.DELIVERY" Collapsed="true">
+    <Position X="17.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAABAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\DELIVERY.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Simulator.SHIFT_LEVEL" Collapsed="true">
+    <Position X="15.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAABAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>API\ComputeEngine\Manufacturing\classes\SHIFT_LEVEL.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

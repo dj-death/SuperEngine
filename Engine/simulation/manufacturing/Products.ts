@@ -1,0 +1,269 @@
+﻿import SemiProduct = require('../../engine/ComputeEngine/Manufacturing/src/SemiProduct');
+import Product = require('../../engine/ComputeEngine/Manufacturing/src/Product');
+import SubContracter = require('../../engine/ComputeEngine/Environnement/src/SubContracter');
+
+import ENUMS = require('../../engine/ComputeEngine/ENUMS');
+
+import Utils = require('../../utils/Utils');
+
+var subContracterDefaultParams,
+    alphaASubContracterParams,
+    alphaBSubContracterParams,
+    alphaCSubContracterParams;
+
+subContracterDefaultParams = {
+    name: "Sous-Traitant",
+
+    availableFutures: {
+        "IMMEDIATE": { term: ENUMS.FUTURES.IMMEDIATE},
+    },
+
+    availableQualities: {
+        "MQ": { index: 100, premium: 0 },
+        "HQ": { index: 200, premium: 0.5 }
+    },
+
+    payments: {
+        "CASH": { credit: ENUMS.CREDIT.CASH, part: 0.5 },
+        "THREE_MONTH": { credit: ENUMS.CREDIT.THREE_MONTH, part: 0.5 }
+    },
+
+    deliveryDelai: ENUMS.DELIVERY.AFTERNEXT_PERIOD,
+
+    discountRate: 0,
+    interestRate: 0,
+    rebateRate: 0,
+
+    canUnplannedMaterialPurchases: false,
+    unplannedPurchasesPremium: 0
+};
+
+alphaASubContracterParams = Utils.ObjectApply({}, subContracterDefaultParams, { manufacturingUnitCost: 60});
+alphaBSubContracterParams = Utils.ObjectApply({}, subContracterDefaultParams, { manufacturingUnitCost: 75});
+alphaCSubContracterParams = Utils.ObjectApply({}, subContracterDefaultParams, { manufacturingUnitCost: 120});
+
+
+var products = {
+
+    alphaA: new SemiProduct({
+        label: "encours alpha Produit A",
+        spaceNeeded: 0.25,
+        
+
+        manufacturingCfg: {
+            minManufacturingUnitTime: 60
+        },
+
+        lostProbability: 0,
+        rejectedProbability: 0,
+
+        rawMaterialConsoCfg: {
+            consoUnit: 1
+        },
+
+        costs: {
+            inspectionUnit: 0,
+            planningUnit: 0
+        }
+
+    }),
+
+    betaA: new SemiProduct({
+        label: "encours beta Produit A",
+        spaceNeeded: 0,
+        
+
+        manufacturingCfg: {
+            minManufacturingUnitTime: 100
+        },
+
+        rawMaterialConsoCfg: {
+            consoUnit: 0
+        },
+
+        lostProbability: 0,
+        rejectedProbability: 0,
+
+        costs: {
+            inspectionUnit: 0,
+            planningUnit: 0
+        }
+
+    }),
+
+    alphaB: new SemiProduct({
+        label: "encours alpha Produit B",
+        spaceNeeded: 0.5,
+        
+
+        manufacturingCfg: {
+            minManufacturingUnitTime: 75
+        },
+
+        rawMaterialConsoCfg: {
+            consoUnit: 2
+        },
+
+        lostProbability: 0,
+        rejectedProbability: 0,
+
+        costs: {
+            inspectionUnit: 0,
+            planningUnit: 0
+        }
+
+    }),
+
+    betaB: new SemiProduct({
+        label: "encours beta Produit B",
+        spaceNeeded: 0,
+        
+
+        manufacturingCfg: {
+            minManufacturingUnitTime: 150
+        },
+
+        rawMaterialConsoCfg: {
+            consoUnit: 0
+        },
+
+        lostProbability: 0,
+        rejectedProbability: 0,
+
+        costs: {
+            inspectionUnit: 0,
+            planningUnit: 0
+        }
+
+    }),
+
+    alphaC: new SemiProduct({
+        label: "encours alpha Produit C",
+        spaceNeeded: 1,
+        
+
+        manufacturingCfg: {
+            minManufacturingUnitTime: 120
+        },
+
+        rawMaterialConsoCfg: {
+            consoUnit: 3
+        },
+
+        lostProbability: 0,
+        rejectedProbability: 0,
+
+        costs: {
+            inspectionUnit: 0,
+            planningUnit: 0
+        }
+
+    }),
+
+    betaC: new SemiProduct({
+        label: "encours alpha Produit A",
+        spaceNeeded: 0,
+        
+
+        manufacturingCfg: {
+            minManufacturingUnitTime: 300
+        },
+
+        rawMaterialConsoCfg: {
+            consoUnit: 0
+        },
+
+        lostProbability: 0,
+        rejectedProbability: 0,
+
+        costs: {
+            inspectionUnit: 0,
+            planningUnit: 0
+        }
+
+    }),
+
+    productA: new Product({
+        id: "p1",
+        code: 0,
+
+        label: "Produit A",
+        spaceNeeded: 0,
+        CO2Footprint: {
+            kwh: 0,
+            weight: 0
+        },
+
+
+        rejectedProbability: 0.035819793, //0.03453901,
+        lostProbability: 0,
+
+        containerCapacityUnitsNb: 500,  
+
+        costs: {
+            scrapValue: 40,
+            guaranteeServicingCharge: 60,
+            inspectionUnit: 1,
+            planningUnit: 1
+
+        }
+    }),
+
+    productB: new Product({
+        id: "p2",
+        code: 1,
+
+        label: "Produit B",
+        spaceNeeded: 0,
+        CO2Footprint: {
+            kwh: 0,
+            weight: 0
+        },
+
+        rejectedProbability: 0.037110669, //0.03598954,
+        lostProbability: 0,
+
+        containerCapacityUnitsNb: 250,
+
+        costs: {
+            scrapValue: 80,
+            guaranteeServicingCharge: 150,
+            
+            inspectionUnit: 1,
+            planningUnit: 1
+        }
+    }),
+
+    productC: new Product({
+        id: "p3",
+        code: 2,
+
+        label: "Produit C",
+        spaceNeeded: 0,
+        CO2Footprint: {
+            kwh: 0,
+            weight: 0
+        },
+
+        rejectedProbability: 0.038209607, //0.03624993,
+        lostProbability: 0,
+
+        containerCapacityUnitsNb: 125,
+
+        costs: {
+            scrapValue: 120,
+            guaranteeServicingCharge: 250,
+
+            inspectionUnit: 1,
+            planningUnit: 1
+        }
+    }),
+
+    alphaASubContracter: new SubContracter(alphaASubContracterParams),
+
+    alphaBSubContracter: new SubContracter(alphaBSubContracterParams),
+
+    alphaCSubContracter: new SubContracter(alphaCSubContracterParams)
+};
+
+export = products;

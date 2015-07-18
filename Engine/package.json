@@ -1,0 +1,30 @@
+{
+  "name": "Engine",
+  "version": "0.0.0",
+  "description": "Engine",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": {
+    "name": "Simo",
+    "email": ""
+  },
+  "dependencies": {
+    "body-parser": "^1.13.2",
+    "cors": "^2.7.1",
+    "express": "^4.13.1",
+    "fs-extra": "^0.20.1",
+    "icg-json-to-xlsx": "^0.2.5",
+    "mongoose": "^3.9.7",
+    "morgan": "^1.6.1",
+    "nedb": "^1.1.2",
+    "node-dir": "^0.1.8",
+    "nosql": "^3.0.2",
+    "q": "^1.4.1",
+    "string": "^3.3.0",
+    "winston": "^1.0.1",
+    "xlsx-populate": "0.0.4",
+    "xlsx-style": "^0.8.4"
+  }
+}
