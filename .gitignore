@@ -243,7 +243,7 @@ builds
 maps
 
 # databases for Test
-/data/simulation/sim.nosql
+sim.nosql
 
 
 =======
