@@ -230,5 +230,21 @@ build/Release
 # Dependency directory
 # https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
 node_modules
+
+
+
+# Project by Me
+
+# Mapping
+*.js.map
+
+# Js builds dir
+builds
+maps
+
+# databases for Test
+data/simulation/*.nosql
+
+
 =======
 >>>>>>> d955003801f98be81b2af1f9718e5312107ac0a7

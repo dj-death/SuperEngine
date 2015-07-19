@@ -1,4 +1,6 @@
 ﻿import Bank = require('../../Environnement/src/Bank');
+import ENUMS = require('../../ENUMS');
+
 
 import ObjectsManager = require('../../ObjectsManager');
 
@@ -23,7 +25,7 @@ class BankAccount {
 
         this.bank = bank;
 
-        this._termDeposit = lastTermDeposit;
+        this.termDeposit = lastTermDeposit;
 
         this.initialised = true;
 
@@ -31,12 +33,25 @@ class BankAccount {
     }
 
     reset() {
+        this.balance = 0;
+        this.termDeposit = 0;
+        this.termLoans = 0;
+
+        this.additionnalLoans = 0;
+
         this.initialised = false;
     }
 
-    private _termDeposit: number;
-    private _termLoans: number;
+    private balance: number;
 
+    private termDeposit: number;
+    private termLoans: number;
+
+    private additionnalLoans: number;// curr period
+
+    withdraw(amount: number) {
+        this.balance -= amount;
+    }
 
     // actions
     changeTermDepositAmount(variation: number) {
@@ -50,15 +65,15 @@ class BankAccount {
     }
 
     placeOnTermDeposit(amount: number) {
-        this._termDeposit += amount;
+        this.termDeposit += amount;
     }
 
     withdrawTermDeposit(amount: number) {
-        if (this._termDeposit < amount) {
-            amount = this._termDeposit;
+        if (this.termDeposit < amount) {
+            amount = this.termDeposit;
         }
 
-        this._termDeposit -= amount;
+        this.termDeposit -= amount;
     }
 
     takeTermLoans(amount: number) {
@@ -70,22 +85,69 @@ class BankAccount {
             return;
         }
 
+        this.additionnalLoans += amount;
+
+        if (this.bank.params.termLoansAvailability === ENUMS.FUTURES.IMMEDIATE) {
+            this.termLoans += amount;
+        }
+
         if (amount > 0) {
-            this._termLoans += amount;
+            this.termLoans += amount;
         }
     }
 
     repayTermLoans(amount: number) {
-        if (this._termLoans < amount) {
-            amount = this._termLoans;
+        if (this.termLoans < amount) {
+            amount = this.termLoans;
         }
 
-        this._termLoans -= amount;
+        this.termLoans -= amount;
+    }
+
+    takeOverdraft(amount: number) {
+        
     }
 
     // result
-    get termDeposit() {
-        return this._termDeposit;
+
+    get overdraftLimit(): number {
+        return 0;
+    }
+
+    get overdraft(): number {
+        if (this.balance >= 0) {
+            return 0;
+        }
+
+        return Math.abs(this.balance);
+    }
+
+    get authorisedOverdraft(): number {
+        
+    }
+
+    get unAuthorisedOverdraft(): number {
+        var total = this.overdraft - this.overdraftLimit;
+
+        if 
+    }
+
+
+
+    get interestReceived(): number {
+        return this.termDeposit * 
+    }
+
+    get interestPaid(): number {
+        return this.termLoans * 
+    }
+
+    get banksOverdraft(): number {
+        return this.authorisedOverdraft + this.unAuthorisedOverdraft; 
+    }
+
+    get termLoansValue(): number {
+        return this.termLoans;
     }
 
 

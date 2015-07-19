@@ -11,7 +11,9 @@ var bank = new Bank({
     termDepositMaturity: ENUMS.FUTURES.THREE_MONTH,
     termDepositPremiumRate: 0,
 
-    canTermLoansToBeRepaidDuringGame: false
+    canTermLoansToBeRepaidDuringGame: false,
+
+    termLoansAvailability: ENUMS.FUTURES.IMMEDIATE
 });
 
 export = bank;

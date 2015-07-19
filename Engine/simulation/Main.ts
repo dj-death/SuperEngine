@@ -429,6 +429,8 @@ export function setDecisions(dec) {
     o.insurance.takeoutInsurance(dec.insurance_plan);
 
     o.bankAccount.changeTermDepositAmount(dec.term_deposit * 1000);
+
+    o.bankAccount.takeTermLoans(dec.term_loans * 1000);
 }
 
 

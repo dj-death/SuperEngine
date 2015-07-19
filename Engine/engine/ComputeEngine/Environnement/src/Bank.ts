@@ -13,6 +13,7 @@ interface BankParams {
     termDepositPremiumRate: number;
 
     canTermLoansToBeRepaidDuringGame: boolean;
+    termLoansAvailability: ENUMS.FUTURES;
 }
 
 class Bank {

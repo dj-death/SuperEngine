@@ -1,1 +1,0 @@
-{"version":3,"file":"AdminExpenses.js","sourceRoot":"","sources":["AdminExpenses.ts"],"names":["AdminExpenses","AdminExpenses.constructor","AdminExpenses.addExpenses"],"mappings":"AAAA,IAAM,aAAa;IAAnBA,SAAMA,aAAaA;IAKnBC,CAACA;IAHGD,mCAAWA,GAAXA,UAAYA,IAAYA,EAAEA,KAAaA;IAEvCE,CAACA;IACLF,oBAACA;AAADA,CAACA,AALD,IAKC;AAGsB,AAAvB,iBAAS,aAAa,CAAC"}

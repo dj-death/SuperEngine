@@ -248,6 +248,11 @@
     <Folder Include="utils\model\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptOutFile>Engine.app.js</TypeScriptOutFile>
+    <TypeScriptOutDir>I:\Lab\Engine\Engine\builds</TypeScriptOutDir>
+    <TypeScriptSourceRoot>I:\Lab\Engine\Engine\maps</TypeScriptSourceRoot>
+  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
   <ProjectExtensions>
