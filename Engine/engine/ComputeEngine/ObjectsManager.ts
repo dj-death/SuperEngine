@@ -88,8 +88,12 @@ class ObjectsManager {
         }
     }
 
-    public static retrieve(department: string): any[] {
+    public static retrieve(department: string): any[]{
         return this.getInstance().objects[department];
+    }
+
+    public static clean() {
+        delete this.getInstance().objects;
     }
 
     public static getObjectsEndState(): any {

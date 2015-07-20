@@ -65,7 +65,7 @@ export class Company {
     }
 
 
-    prepareCompanyBankFile(): ENUMS.Company_BankFile {
+    /*prepareCompanyBankFile(): ENUMS.Company_BankFile {
         var self = this;
 
         return {
@@ -75,7 +75,7 @@ export class Company {
             tradeReceivables: Company.MarketingDept.salesOffice.tradeReceivablesValue,
             tradePayables: self.tradePayablesValue
         };
-    }
+    }*/
 
     get propertyValue(): number {
         var lands = Company.ProductionDept.landNetValue;

@@ -107,8 +107,16 @@ class Marketing {
         var proto = this.prototype;
         var endState = {};
 
+        var value;
+
         for (var key in proto) {
-            endState[key] = that[key];
+            value = that[key];
+
+            if (typeof value === "object" || typeof value === "function") {
+                continue;
+            }
+
+            endState[key] = value;
         }
 
         return endState;

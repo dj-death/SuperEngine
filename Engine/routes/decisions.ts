@@ -11,7 +11,7 @@ import config = require('../config');
 var Q = require('q');
 
 var Datastore = require('nedb');
-var simulationDb = global.simulationDb || new Datastore({ filename: config.simulationDbPath + '/sim.nosql', autoload: true });
+var simulationDb = global.simulationDb || new Datastore({ filename: config.simulationDbPath + '/sim.nosql', autoload: false });
 
 global.simulationDb = simulationDb;
 
@@ -56,21 +56,30 @@ var decisions = function (req, res, next) {
     }
     // end of test
 
-    simulationDb.insert(decisions, function (error, newDoc) {
-        if (error) {
-            console.debug(error);
-
-            res.jsonp({
-                "success": false,
-                "msg": "Decision failed to be saved " + error.message
-            });
-
-            throw error;
+    simulationDb.loadDatabase(function (err) {    // Callback is optional
+        // Now commands will be executed
+        if (err) {
+            throw err;
         }
 
-        res.jsonp({
-            "success": true,
-            "msg": "Decision saved"
+
+        simulationDb.insert(decisions, function (error, newDoc) {
+            if (error) {
+                console.debug(error);
+
+                res.jsonp({
+                    "success": false,
+                    "msg": "Decision failed to be saved " + error.message
+                });
+
+                throw error;
+            }
+
+            res.jsonp({
+                "success": true,
+                "msg": "Decision saved"
+            });
+
         });
 
     });

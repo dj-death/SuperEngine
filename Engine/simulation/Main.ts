@@ -118,7 +118,7 @@ export function initialize(lastState, currPeriod: number) {
             machinesStats.push(state);
         }
     }
-    
+
 
     console.debug(machinesStats);
 
@@ -162,7 +162,7 @@ export function initialize(lastState, currPeriod: number) {
 
     // init
     o.factory.init(lastState.factory_availableSpace, o.land, lastState.buildingsNetValue, o.buildingContractor, [o.atelierMoulage, o.atelierFinition]);
-    o.land.init(lastState.land_availableSpace, o.land, lastState.landNetValue, o.buildingContractor,[o.factory]);
+    o.land.init(lastState.land_availableSpace, o.land, lastState.landNetValue, o.buildingContractor, [o.factory]);
 
     // internet website
     o.eCommerce.init(lastState.m3_agents_wantedWebsitePortsNb, o.internetMarket, o.internetDistributor);
@@ -218,6 +218,7 @@ export function initialize(lastState, currPeriod: number) {
     o.eurobankAccount.init(o.Company.getInstance(), o.eurobank, cashBalance, lastState.termDeposit, lastState.termLoansValue, lastState.banksOverdraft, lastState.nextPOverdraftLimit);
 
     // now registring responsability centers
+
     o.Production.init();
     o.Production.register(o.ObjectsManager.retrieve("production"));
 
@@ -450,6 +451,13 @@ export function getEndState() {
     var endState = o.ObjectsManager.getObjectsEndState();
 
     Utils.ObjectApply(endState, o.Production.getEndState(), o.Marketing.getEndState(),o.Environnement.getEndState(), o.Finance.getInstance(), o.Company.getInstance());
+    
+    // try to free memory
+    o.ObjectsManager.clean();
+
+    o.Production.init();
+    o.Marketing.init();
+    o.Finance.init();
 
     return endState;
 }

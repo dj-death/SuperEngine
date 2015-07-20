@@ -6,13 +6,19 @@ var Dir = require('node-dir');
 var console = require('../utils/logger');
 // Persistent datastore with automatic loading 
 var Datastore = require('nedb');
-var scenariosDb = global.scenariosDb || new Datastore({ filename: config.scenariosDbPath + '/scenarios.nosql', autoload: true, corruptAlertThreshold: 0 });
+var scenariosDb = global.scenariosDb || new Datastore({ filename: config.scenariosDbPath + '/scenarios.nosql', autoload: false, corruptAlertThreshold: 0 });
 global.scenariosDb = scenariosDb;
 var simulationDb = global.simulationDb || new Datastore({ filename: config.simulationDbPath + '/sim.nosql', autoload: true });
 global.simulationDb = simulationDb;
 function loadScenario(scenarioId, callback) {
-    scenariosDb.findOne({ ref: scenarioId }, function (err, scenario) {
-        callback.apply(null, [scenario, scenarioId]);
+    scenariosDb.loadDatabase(function (err) {
+        // Now commands will be executed
+        if (err) {
+            throw err;
+        }
+        scenariosDb.findOne({ ref: scenarioId }, function (err, scenario) {
+            callback.apply(null, [scenario, scenarioId]);
+        });
     });
 }
 function populateWithHisoriques(companyRec, historiques) {
@@ -75,11 +81,17 @@ function saveTest() {
             reports.push(report);
         });
         if (reports.length) {
-            simulationDb.insert(reports, function (err, newDoc) {
+            simulationDb.loadDatabase(function (err) {
+                // Now commands will be executed
                 if (err) {
-                    console.debug(err);
                     throw err;
                 }
+                simulationDb.insert(reports, function (err, newDoc) {
+                    if (err) {
+                        console.debug(err);
+                        throw err;
+                    }
+                });
             });
         }
     });
@@ -109,10 +121,16 @@ function saveAll() {
                         ref: historiques[0].scenarioId.trim(),
                         historiques: historiques
                     };
-                    scenariosDb.insert(scenario, function (err, newDoc) {
-                        if (err)
+                    scenariosDb.loadDatabase(function (err) {
+                        // Now commands will be executed
+                        if (err) {
                             throw err;
-                        console.debug('saved ', newDoc._id);
+                        }
+                        scenariosDb.insert(scenario, function (err, newDoc) {
+                            if (err)
+                                throw err;
+                            console.debug('saved ', newDoc._id);
+                        });
                     });
                 }
             });

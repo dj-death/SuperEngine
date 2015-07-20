@@ -39,7 +39,7 @@ class Bank {
         this.reset();
 
         // Stack range exception
-        //this.centralBank = centralBank;
+        this.centralBank = centralBank;
 
         this.interestRate = centralBank.initialInterestBaseRate;
 

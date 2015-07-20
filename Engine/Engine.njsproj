@@ -99,6 +99,7 @@
     <TypeScriptCompile Include="Scripts\typings\express\express.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\node\node.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\stylus\stylus.d.ts" />
+    <TypeScriptCompile Include="serverTest.ts" />
     <TypeScriptCompile Include="simulation\CompanyParams.ts" />
     <TypeScriptCompile Include="simulation\environnement\Banks.ts" />
     <TypeScriptCompile Include="simulation\environnement\CentralBanks.ts" />
@@ -134,6 +135,7 @@
     <TypeScriptCompile Include="utils\Validate.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="JSLintNet.json" />
     <Content Include="web.config" />
     <None Include="web.Release.config" />
     <None Include="didi.pubxml" />

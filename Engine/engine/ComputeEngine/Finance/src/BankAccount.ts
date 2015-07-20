@@ -156,9 +156,9 @@ class BankAccount {
     }
 
     get nextPeriodOverdraftLimit(): number {
-        var company_BankFile = this.company.prepareCompanyBankFile();
+        //var company_BankFile = this.company.prepareCompanyBankFile();
 
-        return this.bank.calcAuthorisedOverdraftLimit(company_BankFile);
+        return 0;//this.bank.calcAuthorisedOverdraftLimit(company_BankFile);
     }
 
     get overdraft(): number {
