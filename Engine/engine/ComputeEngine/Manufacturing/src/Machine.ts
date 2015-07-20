@@ -1,7 +1,8 @@
 ﻿import AbstractObject = require('./AbstractObject');
 import ENUMS = require('../../ENUMS');
 import Utils = require('../../../../utils/Utils');
-import logger = require('../../../../utils/logger');
+
+import console = require('../../../../utils/logger');
 
 import Insurance = require('../../Finance/src/Insurance');
 
@@ -135,7 +136,7 @@ class Machine {
         var avg = Utils.sums(this.machinesStats, "efficiency") / this.machinesStats.length;
 
         if (avg > 1) {
-            console.log("something strange you have efficienct > than 1", avg);
+            console.debug("something strange you have efficienct > than 1", avg);
         }
 
         return avg + 0.002; // for test
@@ -327,12 +328,12 @@ class Machine {
 
     power(hoursNb: number): boolean {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 
         if (isNaN(hoursNb) || !isFinite(hoursNb)) {
-            console.log('Machine @ Quantity not reel', arguments);
+            console.debug('Machine @ Quantity not reel', arguments);
             return false;
         }
         
@@ -357,7 +358,7 @@ class Machine {
     buy(boughtNb: number) {
        
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 
@@ -386,7 +387,7 @@ class Machine {
 
     sell(soldNb: number) {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 

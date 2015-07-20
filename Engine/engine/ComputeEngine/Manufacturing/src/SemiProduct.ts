@@ -7,7 +7,8 @@ import ENUMS = require('../../ENUMS');
 import Atelier = require('./Atelier');
 
 import Utils = require('../../../../utils/Utils');
-import logger = require('../../../../utils/logger');
+
+import console = require('../../../../utils/logger');
 
 import ObjectsManager = require('../../ObjectsManager');
 
@@ -232,12 +233,12 @@ class SemiProduct {
     // actions
     manufacture(quantity: number, manufacturingUnitTime: number, premiumQualityProp: number = 0): number {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return 0;
         }
 
         if (isNaN(quantity) || !isFinite(quantity) || quantity <= 0) {
-            console.log('Quantity not reel', arguments);
+            console.debug('Quantity not reel', arguments);
             return 0;
         }
 
@@ -281,7 +282,7 @@ class SemiProduct {
             // if we have materiel but we didn'h have sufficient quantity then break;
             if (!done && rmCfg.rawMaterial) {
                 // redo
-                console.log("Atelier @ Redo ");
+                console.debug("Atelier @ Redo ");
                 mCfg.atelier && mCfg.atelier.work(- manufacturingUnitTime / 60);
                 break;
             }
@@ -298,7 +299,7 @@ class SemiProduct {
 
     deliverTo(quantity: number): number {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return 0;
         }
 
@@ -308,7 +309,7 @@ class SemiProduct {
 
         availableQ = this.warehouse.availableQ;
 
-        console.log("call SP stock", availableQ, " but you need ", quantity);
+        console.debug("call SP stock", availableQ, " but you need ", quantity);
         
         diff = quantity - availableQ;
 
@@ -328,7 +329,7 @@ class SemiProduct {
 
     subContract(unitsNb: number, premiumQualityProp: number = 0): boolean {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 
@@ -343,7 +344,7 @@ class SemiProduct {
 
     supply(quantity: number, value: number = 0, term: ENUMS.FUTURES = ENUMS.FUTURES.IMMEDIATE): boolean {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
         this.purchasesValue += value;

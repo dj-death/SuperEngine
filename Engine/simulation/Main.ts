@@ -3,7 +3,7 @@
 import  o = require('./Objects');
 
 import Utils = require('../utils/Utils');
-import logger = require('../utils/logger');
+import console = require('../utils/logger');
 
 var exchangeRateEurosPerDollar;	
 
@@ -57,14 +57,14 @@ export function initEnvironnemet(lastState, currPeriod: number) {
     o.ECB.init(lastState.m1_interestBaseRatePerThousand / 1000);
     o.FED.init(lastState.m2_interestBaseRatePerThousand / 1000);
 
+    // banks
+    o.eurobank.init(o.ECB);
+
     // init economics
     o.europe.init(o.europeanLabourPool, o.euro, o.ECB);
     o.northAmerica.init(o.americanLabourPool, o.dollar, o.FED);
     o.restOfDevelopedWorld.init(null, o.dollar);
     o.world.init(null, o.dollar);
-
-    // banks
-    o.bank.init(o.europe);
 
     // init materials market
     var materialPrices = [lastState.material_spotPrice, lastState.material_3mthPrice, lastState.material_6mthPrice];
@@ -120,7 +120,7 @@ export function initialize(lastState, currPeriod: number) {
     }
     
 
-    console.log(machinesStats);
+    console.debug(machinesStats);
 
     // machines
     o.robot.init(lastState.machine_availablesNextPeriodNb, machinesStats, lastState.machineryNetValue);
@@ -211,10 +211,11 @@ export function initialize(lastState, currPeriod: number) {
 
     // finance
     var premiumsBase = lastState.landNetValue + lastState.buildingsNetValue + lastState.machineryNetValue + lastState.inventory_closingValue;
-    o.insurance.init(premiumsBase, currPeriod, o.Management);
+    o.alphaInsurance.init(premiumsBase, currPeriod, o.Management);
 
-    var lastTermDeposit = lastState.termDeposit || 0;
-    o.bankAccount.init(o.bank, lastTermDeposit);
+    var cashBalance = lastState.cashBalance || (lastState.cashValue - lastState.banksOverdraft);
+
+    o.eurobankAccount.init(o.Company.getInstance(), o.eurobank, cashBalance, lastState.termDeposit, lastState.termLoansValue, lastState.banksOverdraft, lastState.nextPOverdraftLimit);
 
     // now registring responsability centers
     o.Production.init();
@@ -286,7 +287,7 @@ export function setDecisions(dec) {
         var consoUnitA, consoUnitB, consoUnitC;
 
         if (diffAssemblyTime > 0 || diffMachiningTime > 0) {
-            console.log("Needs exceed Capacity");
+            console.debug("Needs exceed Capacity");
             diffBase = Math.max(diffAssemblyTime, diffMachiningTime);
 
             var totalQ = p1_Q + p2_Q + p3_Q;
@@ -315,14 +316,14 @@ export function setDecisions(dec) {
             var p2_Minus = Math.round(P_minus * ratioB);
             var p3_Minus = Math.round(P_minus * ratioC);
 
-            console.log('il reste ', diffBase - (p1_Minus * consoUnitA) - (p2_Minus * consoUnitB) - (p3_Minus * consoUnitC));
+            console.debug('il reste ', diffBase - (p1_Minus * consoUnitA) - (p2_Minus * consoUnitB) - (p3_Minus * consoUnitC));
             
 
             return [p1_Minus, p2_Minus, p3_Minus];
 
         }
 
-        console.log("Good");
+        console.debug("Good");
 
         return [0, 0, 0];
     }
@@ -375,8 +376,6 @@ export function setDecisions(dec) {
 
     } while (!successProgram);
 
-    logger.log("Company ", dec.d_CompanyName, p1_scheduledQ, p2_scheduledQ, p3_scheduledQ);
-
     o.productA.manufacture(p1_scheduledQ, CONSTS.p1_machiningTime, dec.p1_premiumMaterialProp / 100, dec.p1_assemblyTime, CONSTS.assemblyMaterial);
     o.productB.manufacture(p2_scheduledQ, CONSTS.p2_machiningTime, dec.p2_premiumMaterialProp / 100, dec.p2_assemblyTime, CONSTS.assemblyMaterial);
     o.productC.manufacture(p3_scheduledQ, CONSTS.p3_machiningTime, dec.p3_premiumMaterialProp / 100, dec.p3_assemblyTime, CONSTS.assemblyMaterial);
@@ -426,11 +425,11 @@ export function setDecisions(dec) {
     o.BusinessIntelligence.commissionMarketSharesInfo(!!dec.intelligence_marketShares_order);
 
     // finance
-    o.insurance.takeoutInsurance(dec.insurance_plan);
+    o.alphaInsurance.takeoutInsurance(dec.insurance_plan);
 
-    o.bankAccount.changeTermDepositAmount(dec.term_deposit * 1000);
+    o.eurobankAccount.changeTermDepositAmount(dec.term_deposit * 1000);
 
-    o.bankAccount.takeTermLoans(dec.term_loans * 1000);
+    o.eurobankAccount.takeTermLoans(dec.term_loans * 1000);
 }
 
 
@@ -439,7 +438,7 @@ export function getOrders(matrix: number[][]) {
     var naftaOrders = matrix[1];
     var internetOrders = matrix[2];
 
-    console.log(matrix);
+    console.debug(matrix);
 
     o.euroMarket.__simulate(euroOrders);
     o.naftaMarket.__simulate(naftaOrders);

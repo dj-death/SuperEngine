@@ -1,6 +1,7 @@
 //import DecisionModel = require('../api/models/Decision');
 //var Q = require('q');
 var Utils = require('../utils/Utils');
+var console = require('../utils/logger');
 var config = require('../config');
 var Q = require('q');
 var Datastore = require('nedb');
@@ -8,7 +9,7 @@ var simulationDb = global.simulationDb || new Datastore({ filename: config.simul
 global.simulationDb = simulationDb;
 simulationDb.ensureIndex({ fieldName: '_id', unique: true, sparse: true }, function (err) {
     if (err) {
-        console.log(err);
+        console.debug(err);
         throw err;
     }
 });
@@ -37,7 +38,7 @@ var decisions = function (req, res, next) {
     // end of test
     simulationDb.insert(decisions, function (error, newDoc) {
         if (error) {
-            console.log(error);
+            console.debug(error);
             res.jsonp({
                 "success": false,
                 "msg": "Decision failed to be saved " + error.message

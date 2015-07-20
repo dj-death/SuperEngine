@@ -52,7 +52,7 @@ $.extend($.fn, {
 
 		// if nothing is selected, return nothing; can't chain anyway
 		if (!this.length) {
-			options && options.debug && window.console && console.warn( "nothing selected, can't validate, returning nothing" );
+			options && options.console.debug && window.console && console.warn( "nothing selected, can't validate, returning nothing" );
 			return;
 		}
 
@@ -81,7 +81,7 @@ $.extend($.fn, {
 		
 			// validate the form on submit
 			this.submit( function( event ) {
-				if ( validator.settings.debug )
+				if ( validator.settings.console.debug )
 					// prevent form submit to be able to see console output
 					event.preventDefault();
 					
@@ -551,7 +551,7 @@ $.extend($.validator, {
 			.not(":submit, :reset, :image, [disabled]")
 			.not( this.settings.ignore )
 			.filter(function() {
-				!this.name && validator.settings.debug && window.console && console.error( "%o has no name assigned", this);
+				!this.name && validator.settings.console.debug && window.console && console.error( "%o has no name assigned", this);
 			
 				// select only the first element for each name, and only those with rules specified
 				if ( this.name in rulesCache || !validator.objectLength($(this).rules()) )
@@ -622,7 +622,7 @@ $.extend($.validator, {
 						return false;
 					}
 				} catch(e) {
-					this.settings.debug && window.console && console.log("exception occured when checking element " + element.id
+					this.settings.console.debug && window.console && console.debug("exception occured when checking element " + element.id
 						 + ", check the '" + rule.method + "' method", e);
 					throw e;
 				}

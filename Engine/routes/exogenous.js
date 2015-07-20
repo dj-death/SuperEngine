@@ -1,6 +1,7 @@
+var console = require('../utils/logger');
 var exogenous = function (req, res, next) {
     var status, data;
-    console.log(req.body);
+    console.debug(req.body);
     var error = false;
     var message;
     if (!error) {

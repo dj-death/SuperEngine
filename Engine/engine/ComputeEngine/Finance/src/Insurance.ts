@@ -2,6 +2,9 @@
 
 import Management = require('../../Personnel/src/Management');
 
+import console = require('../../../../utils/logger');
+
+
 interface InsurancePlanOptions {
     primaryRiskRate: number;
     premiumRate: number;

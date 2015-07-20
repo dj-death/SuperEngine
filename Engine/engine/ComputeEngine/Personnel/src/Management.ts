@@ -1,7 +1,7 @@
 ﻿import ENUMS = require('../../ENUMS');
 import Utils = require('../../../../utils/Utils');
 
-import logger = require('../../../../utils/logger');
+import console = require('../../../../utils/logger');
 
 import ObjectsManager = require('../../ObjectsManager');
 
@@ -78,8 +78,6 @@ class Management {
 
         var adjustedAvgEarnings;
 
-        logger.log("call for control");
-
         this.employees.forEach(function (emp) {
             var empParams = emp.params;
             if (empParams.isUnskilled && empParams.category === "machinist") {
@@ -93,8 +91,6 @@ class Management {
             }
         });
 
-        logger.log("We have M:", machinistAvgEarnings, " A:", assemblyWorkerAvgEarnings);
-
         if (!machinist || !assemblyWorker || !machinistAvgEarnings || !assemblyWorkerAvgEarnings) {
             return false;
         }
@@ -104,8 +100,6 @@ class Management {
         }
 
         adjustedAvgEarnings = Math.floor((machinistAvgEarnings - assemblyWorkerAvgEarnings) * assemblyWorker.employeesNb);
-
-        logger.log("Adjusted:", adjustedAvgEarnings);
 
         // fix disequilibre
         assemblyWorker.adjustedAvgEarnings = adjustedAvgEarnings;
@@ -146,7 +140,7 @@ class Management {
 
     train(trainingDaysNb: number) {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 
@@ -155,7 +149,7 @@ class Management {
 
     allocateBudget(budget: number) {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 

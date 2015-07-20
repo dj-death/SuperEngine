@@ -10,6 +10,8 @@ import Land = require('./Land');
 import Factory = require('./Factory');
 
 import Utils = require('../../../../utils/Utils');
+import console = require('../../../../utils/logger');
+
 
 class Production {
     private static _instance: Production = null;

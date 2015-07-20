@@ -5,6 +5,9 @@ import CentralBank = require('./CentralBank');
 
 import ObjectsManager = require('../../ObjectsManager');
 
+import console = require('../../../../utils/logger');
+
+
 
 interface EconomicsParams {
     id: string;
@@ -21,7 +24,8 @@ class Economy {
     
     private demand: Demand;
     private labourPool: LabourPool;
-    private centralBank: CentralBank;
+
+    centralBank: CentralBank;
 
     currency: Currency;
 

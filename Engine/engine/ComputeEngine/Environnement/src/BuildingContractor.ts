@@ -3,6 +3,9 @@ import ENUMS = require('../../../ComputeEngine/ENUMS');
 
 import ObjectsManager = require('../../ObjectsManager');
 
+import console = require('../../../../utils/logger');
+
+
 
 interface BuildingContractorParams {
     checkClientCreditWorthiness: boolean;

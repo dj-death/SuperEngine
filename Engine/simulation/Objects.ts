@@ -30,7 +30,7 @@ import Environnement = require('../engine/ComputeEngine/Environnement/src/Enviro
 
 import economies = require('./environnement/Economies');
 import centralBanks = require('./environnement/CentralBanks');
-import bank = require('./environnement/Bank');
+import banks = require('./environnement/Banks');
 import materialsMarkets = require('./environnement/MaterialsMarkets');
 
 import currencies = require('./environnement/Currencies');
@@ -43,8 +43,8 @@ import Management = require('./personnel/Management');
 
 import Finance = require('../engine/ComputeEngine/Finance/src/Finance');
 
-import insurance = require('./finance/Insurance');
-import bankAccount = require('./finance/BankAccount');
+import insurances = require('./finance/Insurances');
+import bankAccounts = require('./finance/BankAccounts');
 
 
 var objects = {
@@ -60,8 +60,8 @@ var objects = {
     Finance: Finance,
     Management: Management,
 
-    insurance: insurance,
-    bankAccount: bankAccount,
+    alphaInsurance: insurances.alphaInsurance,
+    eurobankAccount: bankAccounts.eurobankAccount,
     
 
     eCommerce: eCommerce,
@@ -129,7 +129,7 @@ var objects = {
     FED: centralBanks.FED,
     ECB: centralBanks.ECB,
 
-    bank: bank,
+    eurobank: banks.eurobank,
 
     europeanLabourPool: labourPools.europeanLabourPool,
     americanLabourPool: labourPools.americanLabourPool,

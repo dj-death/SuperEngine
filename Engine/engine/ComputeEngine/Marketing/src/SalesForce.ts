@@ -5,6 +5,9 @@ import ObjectsManager = require('../../ObjectsManager');
 
 import Market = require('./Market');
 
+import console = require('../../../../utils/logger');
+
+
 interface SalesForceCost extends Employee.EmployeeCosts {
     minSupportPerAgent: number;
 }

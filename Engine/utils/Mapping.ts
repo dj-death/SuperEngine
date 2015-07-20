@@ -284,7 +284,7 @@
     "A211": "warehousingCost",
     "A212": "BusinessIntelligenceCost",
     "A213": "creditControlCost",
-    "A214": "insurance_premiumsCost",
+    "A214": "insurancesPremiumsCost",
     "A215": "managementCost",
     "A216": "miscellaneousCost",
     "A217": "administrativeExpensesTotalCost",
@@ -292,8 +292,8 @@
     "A240": "previousTaxableProfitLoss",
     "A257": "taxableProfitLoss",
 
-    "A219": "insurance_claimsForLosses",
-    "A220": "insurance_primaryNonInsuredRisk",
+    "A219": "insurancesClaimsForLosses",
+    "A220": "insurancesPrimaryNonInsuredRisk",
 
     "A241": "salesRevenue",
 
@@ -334,7 +334,7 @@
     "A277": "equityTotalValue",
 
     "A221": "tradingReceipts",
-    "A222": "insurance_receipts",
+    "A222": "insurancesReceipts",
     "A223": "tradingPayments",
     "A224": "taxPaid",
 
@@ -348,7 +348,7 @@
     "A232": "interestPaid",
 
     "A233": "netCashFlow",
-    "A234": "previousCashBalance",
+    "A234": "previousBalance",
     "A270": "termDeposit",
 
     "A238": "nextPOverdraftLimit",

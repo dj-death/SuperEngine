@@ -2,6 +2,8 @@
 import ObjectsManager = require('../../ObjectsManager');
 
 import Utils = require('../../../../utils/Utils');
+import console = require('../../../../utils/logger');
+
 
 interface SalesOfficeParams {
     costs: {

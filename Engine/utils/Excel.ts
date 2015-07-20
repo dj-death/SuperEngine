@@ -36,7 +36,7 @@ function makeReport(wbPath, data, cb) {
 
     XLSXPopulate.fromFile(wbPath, function (err, iWorkbook) {
         if (err) {
-            return console.log(err);
+            return console.debug(err);
         }
 
         var iSheet = iWorkbook.getSheet(sheetTitle);
@@ -92,14 +92,14 @@ export function excelImport(wbPath) {
         reportData;
 
     if (!workbook) {
-        console.log('error : not a valid excel file');
+        console.debug('error : not a valid excel file');
         return null;
     }
 
     Wsheet = workbook.Sheets["W"];
 
     if (!Wsheet) {
-        console.log('error : not a valid excel report');
+        console.debug('error : not a valid excel report');
         return null;
     }
 
@@ -109,7 +109,7 @@ export function excelImport(wbPath) {
         var cell = Wsheet[cellAddress];
 
         if (!cell) {
-            console.log(Mapping[cellAddress] + ' @ ' + cellAddress + ' not found !');
+            console.debug(Mapping[cellAddress] + ' @ ' + cellAddress + ' not found !');
             continue;
         }
 
@@ -150,7 +150,7 @@ export function dbToExcel(res) {
         
         /*XLSXPopulate.fromFile(file, function (err, iWorkbook) {
             if (err) {
-                return console.log(err);
+                return console.debug(err);
             }
 
             var sheet = iWorkbook.getSheet(0);
@@ -179,7 +179,7 @@ export function dbToExcel(res) {
 
                 cell.setValue(property);
 
-                console.log("Column ", colNb);
+                console.debug("Column ", colNb);
 
                 var i = 0,
                     record,
@@ -190,7 +190,7 @@ export function dbToExcel(res) {
                     rowNb = i + 2;
                     cell = sheet.getCell(rowNb, colNb);
 
-                    console.log("Col", colNb, " / Row ", rowNb);
+                    console.debug("Col", colNb, " / Row ", rowNb);
 
                     value = record[property];
 

@@ -243,7 +243,9 @@ builds
 maps
 
 # databases for Test
-sim.nosql
+*.nosql
+
+!data/scenarios/scenarios.nosql
 
 
 =======

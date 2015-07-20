@@ -4,7 +4,8 @@ import Warehouse = require('./Warehouse');
 
 import ENUMS = require('../../ENUMS');
 import Utils = require('../../../../utils/Utils');
-import logger = require('../../../../utils/logger');
+
+import console = require('../../../../utils/logger');
 
 import Market = require('../../Marketing/src/Market');
 
@@ -315,21 +316,21 @@ class Product {
 
     // actions
     manufacture(quantity: number, ...semiProductsDecisions: number[]): number {
-        console.log(this.params.id, " / Receive order to product ", quantity);
+        console.debug(this.params.id, " / Receive order to product ", quantity);
         if (!this.initialised) {
-            console.log('Product not initialised to Manufacture');
+            console.debug('Product not initialised to Manufacture');
             return 0;
         }
 
         if (! quantity || isNaN(quantity) || !isFinite(quantity) || quantity <= 0) {
-            console.log('Quantity not reel', arguments);
+            console.debug('Quantity not reel', arguments);
             return 0;
         }
 
         var diff = (this.semiProducts.length * 2) - (semiProductsDecisions.length - 1);
 
         if (diff < 0) {
-            console.log("you didn't give us enough params to manufacture", diff);
+            console.debug("you didn't give us enough params to manufacture", diff);
 
         }
 
@@ -369,7 +370,7 @@ class Product {
             prodQ = this.semiProducts[i].manufacture(quantity, manufacturingUnitTime, premiumQualityProp);
             unitsNb = this.semiProducts[i].deliverTo(prodQ); // 3la 7ssab lost la tkon f Stock w bghit li sna3t lost 3la 7sabkom
 
-            console.log("We command ", quantity, " of ", this.semiProducts[i].params.label, " and response is ", unitsNb, " after production of ", prodQ);
+            console.debug("We command ", quantity, " of ", this.semiProducts[i].params.label, " and response is ", unitsNb, " after production of ", prodQ);
 
             result.push(unitsNb);
         }
@@ -379,7 +380,7 @@ class Product {
         result.sort(function (a, b) { return a - b; })
         minUnitsNb = result[0];
 
-        console.log("The min from ", result, " is ", minUnitsNb);
+        console.debug("The min from ", result, " is ", minUnitsNb);
 
         if (!minUnitsNb || minUnitsNb < 0 ) {
             return 0;
@@ -404,8 +405,8 @@ class Product {
         // now supply the stock
         this.warehouse.moveIn(minUnitsNb - reelRejectedNb);
 
-        console.log("Finally we get ", minUnitsNb - reelRejectedNb);
-        console.log("Order ", wantedNb, "/ Diff ", minUnitsNb - reelRejectedNb - wantedNb);
+        console.debug("Finally we get ", minUnitsNb - reelRejectedNb);
+        console.debug("Order ", wantedNb, "/ Diff ", minUnitsNb - reelRejectedNb - wantedNb);
 
         return minUnitsNb - reelRejectedNb;
     }
@@ -413,7 +414,7 @@ class Product {
 
     deliverTo(quantity: number, market: Market, price: number, advertisingBudget: number, customerCredit?: ENUMS.CREDIT): number {
         if (!this.initialised) {
-            console.log('Product not initialised');
+            console.debug('Product not initialised');
             return 0;
         }
 
@@ -429,7 +430,7 @@ class Product {
             args = [diff];
             args = args.concat(this.lastManufacturingParams);
            
-            console.log("Product", this.params.id, " call for compensation", diff);
+            console.debug("Product", this.params.id, " call for compensation", diff);
 
             this.manufacture.apply(this, args);
             

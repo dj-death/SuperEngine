@@ -1,5 +1,6 @@
 ﻿import ObjectsManager = require('../../ObjectsManager');
 
+import console = require('../../../../utils/logger');
 
 interface CustomerPreferences {
     pricePrefs: {

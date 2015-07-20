@@ -3,6 +3,7 @@ var config = require('../config');
 var Utils = require('../utils/Utils');
 var path = require('path');
 var Dir = require('node-dir');
+var console = require('../utils/logger');
 // Persistent datastore with automatic loading 
 var Datastore = require('nedb');
 var scenariosDb = global.scenariosDb || new Datastore({ filename: config.scenariosDbPath + '/scenarios.nosql', autoload: true, corruptAlertThreshold: 0 });
@@ -56,7 +57,7 @@ function saveTest() {
     }
     Dir.files(config.decisionsTestPath, function (err, files) {
         if (err) {
-            console.log(err);
+            console.debug(err);
             throw err;
         }
         // sort ascending
@@ -67,16 +68,16 @@ function saveTest() {
             report["period"] = getPeriod(report["period_year"], report["period_quarter"]);
             report["_id"] = Utils.makeID(report);
             if (!report) {
-                console.log(path.basename(file), ' failed');
+                console.debug(path.basename(file), ' failed');
                 return false;
             }
-            console.log(report["_id"], report["period"]);
+            console.debug(report["_id"], report["period"]);
             reports.push(report);
         });
         if (reports.length) {
             simulationDb.insert(reports, function (err, newDoc) {
                 if (err) {
-                    console.log(err);
+                    console.debug(err);
                     throw err;
                 }
             });
@@ -98,7 +99,7 @@ function saveAll() {
                 files.forEach(function (file, idx) {
                     var historique = Excel.excelImport(file);
                     if (!historique) {
-                        console.log(path.basename(file), ' failed');
+                        console.debug(path.basename(file), ' failed');
                         return false;
                     }
                     historiques.push(historique);
@@ -111,7 +112,7 @@ function saveAll() {
                     scenariosDb.insert(scenario, function (err, newDoc) {
                         if (err)
                             throw err;
-                        console.log('saved ', newDoc._id);
+                        console.debug('saved ', newDoc._id);
                     });
                 }
             });

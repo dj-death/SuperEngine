@@ -1,4 +1,6 @@
 ﻿var winston = require('winston');
+var debugLogger = require('debug')('Engine');
+
 
 winston.add(winston.transports.File, { filename: './appwinston.log' });
 //winston.remove(winston.transports.Console);
@@ -25,3 +27,6 @@ export function info(...rest: any[]) {
    log.apply(null, arguments);
 }
 
+export function debug(...rest: any[]) {
+    debugLogger.apply(null, arguments);
+}

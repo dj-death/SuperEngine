@@ -7,6 +7,9 @@
 
 import ENUMS = require('ComputeEngine/ENUMS');
 
+import console = require('../utils/logger');
+
+
 
 interface Stage {
     nb: number;

@@ -1,4 +1,6 @@
 ﻿import Utils = require('../../../../utils/Utils');
+import console = require('../../../../utils/logger');
+
 
 import Market = require('./Market');
 import SalesOffice = require('./SalesOffice');

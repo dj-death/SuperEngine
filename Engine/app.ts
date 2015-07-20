@@ -8,9 +8,12 @@ import fs = require('fs');
 import http = require('http');
 import path = require('path');
 
-import logger = require('./utils/logger');
+import console = require('./utils/logger');
 import router = require('./routes/index');
 import config = require('./config');
+
+var __dirname = __dirname || process.cwd();
+
 
 var app = express();
 
@@ -64,7 +67,7 @@ app.use(function (err, req, res, next) {
     if ((typeof err.message !== 'undefined' && err.message.toLowerCase().substr(0, 6) == 'cancel') || typeof err.errorCode !== 'undefined') {
         // respond promise stop chains info with no system error
 
-        console.log('400 Error. ', 'Message:', err.message);
+        console.debug('400 Error. ', 'Message:', err.message);
 
         res.status(err.status || 400);
 
@@ -76,7 +79,7 @@ app.use(function (err, req, res, next) {
 
     } else {
         // respond 500 system error
-        logger.error(err);
+        console.error(err);
 
         res.status(err.status || 500);
 
@@ -96,7 +99,7 @@ var server_port = process.env.OPENSHIFT_NODEJS_PORT || config.port;
 var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || config.ip;
 
 var server = app.listen(server_port, server_ip_address, function () {
-    console.log('Express server listening on port ' + server.address().port);
+    console.debug('Express server listening on port ' + server.address().port);
 });
 
 

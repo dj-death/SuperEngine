@@ -6,6 +6,8 @@ import ENUMS = require('../../ENUMS');
 import Factory = require('./Factory');
 
 import Utils = require('../../../../utils/Utils');
+import console = require('../../../../utils/logger');
+
 
 class Land extends Space {
 

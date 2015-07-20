@@ -10,6 +10,7 @@ import SalesForce = require('./SalesForce');
 import Transport = require('./Transport');
 
 import Utils = require('../../../../utils/Utils');
+import console = require('../../../../utils/logger');
 
 import ObjectsManager = require('../../ObjectsManager');
 
@@ -98,12 +99,12 @@ class SubMarket {
      * Taking up a major improvement has no effect on any backlog of unfulfilled orders you may have.
     */
     onMajorImprovementImplemented() {
-        console.log("onMajorImprovementImplemented");
+        console.debug("onMajorImprovementImplemented");
         var openingQ = this.warehouse.openingQ;
 
         this.soldOffQ = this.warehouse.moveOut(openingQ, true);
 
-        console.log('openQ', openingQ, this.soldOffQ);
+        console.debug('openQ', openingQ, this.soldOffQ);
     }
 
     // decision
@@ -193,7 +194,7 @@ class SubMarket {
     // actions
     receiveFrom(quantity: number, product: Product, price: number, adsBudget: number, customerCredit?: ENUMS.CREDIT): boolean {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 
@@ -216,7 +217,7 @@ class SubMarket {
 
     getOrdersOf(quantity: number, isNewOrder: boolean = true): number {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return 0;
         }
 
@@ -405,7 +406,7 @@ class Market {
     // actions
     receiveFrom(quantity: number, product: Product, price: number, adsBudget: number, customerCredit?: ENUMS.CREDIT): boolean {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 
@@ -418,7 +419,7 @@ class Market {
 
     setCorporateCom(corporateComBudget: number): boolean {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 

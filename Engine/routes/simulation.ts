@@ -1,5 +1,7 @@
 ﻿import config = require('../config');
 import Utils = require('../utils/Utils');
+import console = require('../utils/logger');
+
 
 var Q = require('q');
 
@@ -131,7 +133,7 @@ function loadHistoryState(scenarioId, callback, failure) {
             return false;
         }
 
-        console.log('scenario ref ' + scenarioId + ' is loadedd ' + scenario.historiques.length);
+        console.debug('scenario ref ' + scenarioId + ' is loadedd ' + scenario.historiques.length);
 
         var hists = scenario.historiques;
         hists.sort(function (v, w) {
@@ -190,7 +192,7 @@ function saveState(company) {
             deferred.reject(error);
         }
 
-        console.log('update ' + _id + ' with ' + numReplaced + ' replacements');
+        console.debug('update ' + _id + ' with ' + numReplaced + ' replacements');
 
         if (numReplaced > 1) {
             deferred.reject(new Error("A Collision happend ! More than one company state is modified @ " + _id));
@@ -215,6 +217,7 @@ function updateCompanyState(company, idx, period, lastState, environnement, orde
     SimMain.getOrders(ordersMatrix[idx]);
 
     Utils.ObjectApply(company, SimMain.getEndState());
+
 }
 
 
@@ -239,7 +242,7 @@ export function run (req, res, next) {
 
     // load current state i.e decisions
     loadCompaniesData(seminarId, groupId, period, function (companies) {
-        console.log("load " + companies.length + " companies data");
+        console.debug("load " + companies.length + " companies data");
 
         // to get market shares let's confronte company decisions
         var ordersMatrix = MarketSim.simulateOrders(companies);
@@ -247,7 +250,7 @@ export function run (req, res, next) {
         
         // load last state
         loadLastState(function (data) {
-            console.log("load last state " + data.length + " count");
+            console.debug("load last state " + data.length + " count");
 
             // we don't care whatever company is
             var lastEnvState = data[0];
@@ -255,7 +258,11 @@ export function run (req, res, next) {
             SimMain.simulateEnv();
 
             companies.forEach(function (company, idx) {
-                updateCompanyState(company, idx, period, data, environnement, ordersMatrix);
+                setTimeout(function() {
+                    updateCompanyState(company, idx, period, data, environnement, ordersMatrix);
+                }, 0);
+
+                //updateCompanyState(company, idx, period, data, environnement, ordersMatrix);
             });
 
             setIntelligenceInfos(companies);
@@ -264,7 +271,7 @@ export function run (req, res, next) {
 
             companies.forEach(function (company, idx) {
                 p = p.then(function () {
-                    console.log("now with " + idx + " of " + company.d_CompanyName);
+                    console.debug("now with " + idx + " of " + company.d_CompanyName);
                     return saveState(company);
                 });
             });

@@ -5,7 +5,8 @@ import Machine = require('./Machine');
 
 import ENUMS = require('../../ENUMS');
 import Utils = require('../../../../utils/Utils');
-import logger = require('../../../../utils/logger');
+import console = require('../../../../utils/logger');
+
 
 import Insurance = require('../../Finance/src/Insurance');
 
@@ -146,13 +147,6 @@ class Worker extends Employee.Employee {
                 self.dismiss(surplusDismissedNb);
 
                 self.surplusDismissedNb = surplusDismissedNb;
-
-                logger.log("Machines :", machine.operatorsNb, " Available:", self.employeesNb);
-                logger.log("Recruit:", recruitedNb, " Dismiss", surplusDismissedNb);
-                logger.log("Next P:", self.availablesNextPeriodNb);
-                logger.log("Trained:", self.trainedNb, self.trainedEffectiveNb);
-                logger.log("Recruit:", self.recruitedNb, self.recruitedEffectiveNb);
-                logger.log("Dis:", self.dismissedNb, self.dismissedEffectiveNb);
 
             }, self);
         }
@@ -458,19 +452,19 @@ class Worker extends Employee.Employee {
 
     work(hoursNb: number): boolean {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 
         if (!this.ready) {
-            console.log('not ready');
+            console.debug('not ready');
             return false;
         }
 
         var success = true;
 
         if (isNaN(hoursNb) || !isFinite(hoursNb)) {
-            console.log('Machine @ Quantity not reel', arguments);
+            console.debug('Machine @ Quantity not reel', arguments);
             return false;
         }
 
@@ -478,7 +472,7 @@ class Worker extends Employee.Employee {
         // sorry we have limited capacity
         if ((this._workedTotaHoursNb + hoursNb) > this.effectiveAvailableTotalHoursNb) {
 
-            console.log('Il ne reste pas de Heures de MOD');
+            console.debug('Il ne reste pas de Heures de MOD');
             return false;
         }
 
@@ -500,7 +494,7 @@ class Worker extends Employee.Employee {
 
     pay(hourlyWageRate: number) {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 

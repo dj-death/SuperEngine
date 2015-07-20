@@ -11,6 +11,9 @@ import simulation = require('./simulation');
 import preprocess = require('./preprocess');
 import exogenous = require('./exogenous');
 
+import console = require('../utils/logger');
+
+
 /*
 if (error) {
     res.status(status || 500);

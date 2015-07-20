@@ -1,8 +1,11 @@
-﻿var exogenous = function (req, res, next) {
+﻿import console = require('../utils/logger');
+
+
+var exogenous = function (req, res, next) {
     var status: number, // error 500
         data: any;
 
-    console.log(req.body);
+    console.debug(req.body);
 
 
     var error = false;

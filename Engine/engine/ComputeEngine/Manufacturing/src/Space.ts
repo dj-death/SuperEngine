@@ -5,6 +5,8 @@ import BuildingContractor = require('../../Environnement/src/BuildingContractor'
 
 import ObjectsManager = require('../../ObjectsManager');
 
+import console = require('../../../../utils/logger');
+
 
 interface SpaceParams {
     id: string;
@@ -162,12 +164,12 @@ class Space {
 
     extend(extension: number) {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 
         if (!this.extraSpace) {
-            console.log('unable to extend');
+            console.debug('unable to extend');
             return false;
         }
 

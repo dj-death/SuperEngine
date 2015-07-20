@@ -4,6 +4,9 @@ import MaterialMarket = require('./MaterialMarket');
 
 import ObjectsManager = require('../../ObjectsManager');
 
+import console = require('../../../../utils/logger');
+
+
 
 interface Quality {
     index: ENUMS.QUALITY;
@@ -102,8 +105,7 @@ export class Supplier<T extends Material> {
 
     order(quantity: number, quality: ENUMS.QUALITY = ENUMS.QUALITY.MQ, term: ENUMS.FUTURES = ENUMS.FUTURES.IMMEDIATE, isUnplannedPurchases: boolean = false): boolean {
         if (!this.initialised) {
-            console.log('not initialised');
-            console.info(arguments);
+            console.debug('not initialised');
             return false;
         }
 

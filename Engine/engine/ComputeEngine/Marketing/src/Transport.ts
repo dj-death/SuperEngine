@@ -2,6 +2,9 @@
 
 import ObjectsManager = require('../../ObjectsManager');
 
+import console = require('../../../../utils/logger');
+
+
 interface TransportParams {
     id: string;
     shipmentDistance: number;
@@ -72,7 +75,7 @@ class Transport {
 
     load(containersNb: number) {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 

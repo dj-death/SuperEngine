@@ -12,6 +12,7 @@ import BuildingContractor = require('../../Environnement/src/BuildingContractor'
 import ENUMS = require('../../ENUMS');
 
 import Utils = require('../../../../utils/Utils');
+import console = require('../../../../utils/logger');
 
 
 class Factory extends Space  {

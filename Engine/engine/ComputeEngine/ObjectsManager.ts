@@ -1,5 +1,8 @@
 ﻿import Utils = require('../../utils/Utils');
 
+import console = require('../../utils/logger');
+
+
 interface IObjects {
     [index: string]: any[];
 }

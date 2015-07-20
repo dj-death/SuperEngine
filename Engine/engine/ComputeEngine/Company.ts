@@ -3,8 +3,12 @@ import Marketing = require('./Marketing/src/Marketing');
 import Management = require('./Personnel/src/Management');
 import Finance = require('./Finance/src/Finance');
 
-
 import Economy = require('./Environnement/src/Economy');
+
+
+import ENUMS = require('./ENUMS');
+
+import console = require('../../utils/logger');
 
 
 export interface CompanyParams {
@@ -60,6 +64,26 @@ export class Company {
         return Company._instance;
     }
 
+
+    prepareCompanyBankFile(): ENUMS.Company_BankFile {
+        var self = this;
+
+        return {
+            property: self.propertyValue,
+            inventories: Company.ProductionDept.inventory_closingValue,
+            taxDue: self.taxDue,
+            tradeReceivables: Company.MarketingDept.salesOffice.tradeReceivablesValue,
+            tradePayables: self.tradePayablesValue
+        };
+    }
+
+    get propertyValue(): number {
+        var lands = Company.ProductionDept.landNetValue;
+        var buildings = Company.ProductionDept.buildingsNetValue;
+
+        return lands + buildings;
+    }
+
     get productionCost(): number {
         var totalCost = 0;
 
@@ -100,7 +124,7 @@ export class Company {
         totalCost += Company.ProductionDept.warehousingCost;
         totalCost += Company.ProductionDept.miscellaneousCost;
 
-        totalCost += Company.FinanceDept.insurance.premiumsCost;
+        totalCost += Company.FinanceDept.insurancesPremiumsCost;
 
         return totalCost;
     }
@@ -117,7 +141,7 @@ export class Company {
     get operatingProfitLoss(): number {
         var result = this.grossProfit;
 
-        result += Company.FinanceDept.insurance.receipts;
+        result += Company.FinanceDept.insurancesReceipts;
         
         result -= this.administrativeExpensesTotalCost;
         result -= Company.ProductionDept.depreciation;
@@ -128,9 +152,8 @@ export class Company {
     get beforeTaxProfitLoss(): number {
         var result = this.operatingProfitLoss;
 
-        // adding finances income
-        // susctract finances expenses
-
+        result += Company.FinanceDept.interestReceived;
+        result -= Company.FinanceDept.interestPaid;
 
         return result;
     }
@@ -144,7 +167,15 @@ export class Company {
 
         return result;
     }
+
+    get taxDue(): number {
+        return 0;
+    }
     
+    get tradePayablesValue(): number {
+        return 0;
+    }
+
     public static getEndState(): any {
         var that = this.getInstance();
         var proto = this.prototype;

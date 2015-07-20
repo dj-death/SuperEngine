@@ -1,5 +1,7 @@
 ﻿import LabourPool = require('../../Environnement/src/LabourPool');
 import ENUMS = require('../../ENUMS');
+import console = require('../../../../utils/logger');
+
 
 
 export interface EmployeeCosts {
@@ -199,7 +201,7 @@ export class Employee {
 
     recruit(recruitedNb: number) {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 
@@ -224,7 +226,7 @@ export class Employee {
 
     train(trainedNb: number) {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 
@@ -249,7 +251,7 @@ export class Employee {
 
     dismiss(dismissedNb: number) {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 
@@ -269,7 +271,7 @@ export class Employee {
 
     pay(salary: number) {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 

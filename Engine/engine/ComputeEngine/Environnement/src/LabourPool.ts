@@ -1,5 +1,8 @@
 ﻿import Warehouse = require('../../Manufacturing/src/Warehouse');
 
+import console = require('../../../../utils/logger');
+
+
 class Pool extends Warehouse {
 
     constructor() {

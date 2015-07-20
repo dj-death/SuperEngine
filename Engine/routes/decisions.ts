@@ -3,6 +3,8 @@
 //var Q = require('q');
 
 import Utils = require('../utils/Utils');
+import console = require('../utils/logger');
+
 
 import config = require('../config');
 
@@ -15,7 +17,7 @@ global.simulationDb = simulationDb;
 
 simulationDb.ensureIndex({ fieldName: '_id', unique: true, sparse: true }, function (err) {
     if (err) {
-        console.log(err);
+        console.debug(err);
 
         throw err;
     }
@@ -56,7 +58,7 @@ var decisions = function (req, res, next) {
 
     simulationDb.insert(decisions, function (error, newDoc) {
         if (error) {
-            console.log(error);
+            console.debug(error);
 
             res.jsonp({
                 "success": false,

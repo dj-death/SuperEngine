@@ -4,6 +4,8 @@ import Market = require('./Market');
 import SalesForce = require('./SalesForce');
 
 import ObjectsManager = require('../../ObjectsManager');
+import console = require('../../../../utils/logger');
+
 
 interface WebsiteCosts {
     serviceCostRate: number;
@@ -166,7 +168,7 @@ class ECommerce {
     // actions
     developWebsite(budget: number) {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 
@@ -176,7 +178,7 @@ class ECommerce {
 
     operateOn(portsNb: number) {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 

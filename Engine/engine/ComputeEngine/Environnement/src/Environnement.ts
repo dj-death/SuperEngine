@@ -3,6 +3,8 @@ import Currency = require('./Currency');
 import MaterialMarket = require('./MaterialMarket');
 
 import Utils = require('../../../../utils/Utils');
+import console = require('../../../../utils/logger');
+
 
 class Environnement {
     private static _instance: Environnement = null;

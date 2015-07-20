@@ -6,6 +6,9 @@ import ENUMS = require('../../../ComputeEngine/ENUMS');
 
 import ObjectsManager = require('../../ObjectsManager');
 
+import console = require('../../../../utils/logger');
+
+
 
 interface SubContracorParams extends Supplier.SupplierParams {
     manufacturingUnitCost: number;

@@ -1,11 +1,17 @@
 ﻿import Insurance = require('./Insurance');
+import BankAccount = require('./BankAccount');
+
 
 import Utils = require('../../../../utils/Utils');
+import console = require('../../../../utils/logger');
+
 
 class Finance {
     private static _instance: Finance = null;
 
-    insurance: Insurance;
+    private insurances: Insurance[] = [];
+
+    private bankAccounts: BankAccount[] = [];
 
     public static init() {
         if (Finance._instance) {
@@ -43,13 +49,58 @@ class Finance {
             object = objects[i];
 
             if (object instanceof Insurance) {
-                that.insurance = object;
+                that.insurances.push(object);
+            }
 
+            else if (object instanceof BankAccount) {
+                that.bankAccounts.push(object);
             }
         }
     }
+    
+    get insurancesPremiumsCost(): number {
+        return Utils.sums(this.insurances, "premiumsCost");
+    }
 
+    get insurancesClaimsForLosses(): number {
+        return Utils.sums(this.insurances, "claimsForLosses");
+    }
 
+    get insurancesReceipts(): number {
+        return Utils.sums(this.insurances, "receipts");
+    }
+
+    get insurancePrimaryNonInsuredRisk(): number {
+        return Utils.sums(this.insurances, "primaryNonInsuredRisk");
+    }
+
+    get interestPaid(): number {
+        return Utils.sums(this.bankAccounts, "interestPaid");
+    }
+
+    get interestReceived(): number {
+        return Utils.sums(this.bankAccounts, "interestReceived");
+    }
+
+    get banksOverdraft(): number {
+        return Utils.sums(this.bankAccounts, "overdraft");
+    }
+
+    get termDeposit(): number {
+        return Utils.sums(this.bankAccounts, "termDeposit");
+    }
+
+    get termLoansValue(): number {
+        return Utils.sums(this.bankAccounts, "termLoans");
+    }
+
+    get previousBalance(): number {
+        return Utils.sums(this.bankAccounts, "initialBalance");
+    }
+
+    get balance(): number {
+        return Utils.sums(this.bankAccounts, "balance");
+    }
 
     public static getEndState(): any {
         var that = this.getInstance();

@@ -82,3 +82,12 @@ export enum STAR_RATINGS {
     FOUR_STAR = 4,
     FIVE_STAR = 5
 }
+
+
+export interface Company_BankFile {
+    property: number;
+    inventories: number;
+    tradeReceivables: number;
+    taxDue: number;
+    tradePayables: number;
+}

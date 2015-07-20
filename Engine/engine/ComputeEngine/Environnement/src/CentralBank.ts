@@ -1,9 +1,12 @@
-﻿import Economy = require('Economy');
+﻿import ObjectsManager = require('../../ObjectsManager');
 
-import ObjectsManager = require('../../ObjectsManager');
+import console = require('../../../../utils/logger');
 
+
+import Economy = require('./Economy');
 
 interface CentralBankParams {
+    id: string;
     isMoneyMarketStable: boolean;
 }
 
@@ -13,11 +16,11 @@ class CentralBank {
 
     private params: CentralBankParams;
 
+    economy: Economy;
+
     initialInterestBaseRate: number;
 
     private _interestBaseRate: number;
-
-    economy: Economy;
 
     constructor(params: CentralBankParams) {
         this.params = params;
@@ -53,7 +56,7 @@ class CentralBank {
         }
 
         // TEst Purposes
-        //this._interestBaseRate = 
+        this._interestBaseRate = 0.015;
     }
 }
 

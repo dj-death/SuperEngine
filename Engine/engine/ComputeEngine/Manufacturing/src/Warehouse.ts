@@ -1,7 +1,7 @@
 ﻿import ENUMS = require('../../ENUMS');
 
 import Utils = require('../../../../utils/Utils');
-import logger = require('../../../../utils/logger');
+import console = require('../../../../utils/logger');
 
 import Insurance = require('../../Finance/src/Insurance');
 
@@ -213,17 +213,17 @@ class Warehouse {
     // actions
     moveOut(quantity, acceptCommandWhateverHappens: boolean = false): number { // the returned value it's what we could give u
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return 0;
         }
 
         if (isNaN(quantity) || !isFinite(quantity)) {
-            console.log('Warehouse @ Quantity not reel', arguments);
+            console.debug('Warehouse @ Quantity not reel', arguments);
             return 0;
         }
 
         if (this.availableQ < quantity) {
-            console.log('il ne reste rien dans le stock');
+            console.debug('il ne reste rien dans le stock');
 
             this.shortfallQ += (quantity - this.availableQ);
 
@@ -245,12 +245,12 @@ class Warehouse {
 
     moveIn(quantity: number, value: number = 0, term: ENUMS.FUTURES = ENUMS.FUTURES.IMMEDIATE): number {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return 0;
         }
 
         if (isNaN(quantity) || !isFinite(quantity)) {
-            console.log('Warehouse @ Quantity not reel', arguments);
+            console.debug('Warehouse @ Quantity not reel', arguments);
             return 0;
         }
 

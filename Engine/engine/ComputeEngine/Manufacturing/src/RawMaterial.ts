@@ -4,7 +4,8 @@ import ENUMS = require('../../ENUMS');
 
 import ObjectsManager = require('../../ObjectsManager');
 
-import logger = require('../../../../utils/logger');
+import console = require('../../../../utils/logger');
+
 
 interface RawMaterialParams {
     id: string;
@@ -92,7 +93,7 @@ class RawMaterial {
 
     supply(quantity: number, value: number, term: ENUMS.FUTURES, isUnplanned: boolean = false): boolean {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 
@@ -108,7 +109,7 @@ class RawMaterial {
         
     consume(quantity: number, premiumQualityProp: number): boolean {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
             return false;
         }
 

@@ -2,6 +2,9 @@
 
 import ObjectsManager = require('../../ObjectsManager');
 
+import console = require('../../../../utils/logger');
+
+
 
 class Market {
     simulateOrders(companiesDec) {

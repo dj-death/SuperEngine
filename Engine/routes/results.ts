@@ -2,6 +2,9 @@
 
 import config = require('../config');
 
+import console = require('../utils/logger');
+
+
 var Datastore = require('nedb');
 var simulationDb = global.simulationDb || new Datastore({ filename: config.simulationDbPath + '/sim.nosql', autoload: true });
 

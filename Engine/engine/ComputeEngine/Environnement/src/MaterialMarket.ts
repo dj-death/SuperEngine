@@ -2,6 +2,8 @@
 import Economy = require("./Economy");
 
 import ObjectsManager = require('../../ObjectsManager');
+import console = require('../../../../utils/logger');
+
 
 
 
@@ -83,7 +85,7 @@ class MaterialMarket {
     // at reel time (for this period) at local currency for standard lot
     getQuotedPrice(term: ENUMS.FUTURES = ENUMS.FUTURES.IMMEDIATE): number {
         if (!this.initialised) {
-            console.log('MaterialMarket not initialised');
+            console.debug('MaterialMarket not initialised');
             return 0;
         }
 

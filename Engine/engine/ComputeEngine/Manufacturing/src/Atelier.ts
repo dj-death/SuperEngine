@@ -2,7 +2,7 @@
 import Worker = require('./Worker');
 import Machine = require('./Machine');
 
-import logger = require('../../../../utils/logger');
+import console = require('../../../../utils/logger');
 
 import ObjectsManager = require('../../ObjectsManager');
 
@@ -88,7 +88,7 @@ class Atelier {
     // actions
     work(hoursNb: number): boolean {
         if (!this.initialised) {
-            console.log('not initialised');
+            console.debug('not initialised');
 
             return false;
         }
@@ -99,7 +99,7 @@ class Atelier {
         success = this.machine && this.machine.power(hoursNb);
 
         if (!success && this.machine) {
-            console.log("Votre demande dépasse la capacité périodique des machines");
+            console.debug("Votre demande dépasse la capacité périodique des machines");
             return false;
         }
 
@@ -117,8 +117,8 @@ class Atelier {
         success = this.worker && this.worker.work(hoursNb);
 
         if (!success && this.worker) {
-            console.log("Votre demande dépasse la capacité périodique des ouvriers ", this.worker.params.label);
-            console.log("Nous lui avons demandés de travailler ", hoursNb, " hours");
+            console.debug("Votre demande dépasse la capacité périodique des ouvriers ", this.worker.params.label);
+            console.debug("Nous lui avons demandés de travailler ", hoursNb, " hours");
             return false;
         }
 
