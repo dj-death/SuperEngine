@@ -14,6 +14,9 @@ import console = require('../../../../utils/logger');
 
 import ObjectsManager = require('../../ObjectsManager');
 
+import CashFlow = require('../../Finance/src/CashFlow');
+
+
 interface MarketParams {
     id: string;
     name: string;
@@ -24,7 +27,11 @@ interface MarketParams {
     costs: {
         creditControlUnitCost: number; // 0 means inactived
         creditCardRatePerUnitSold: number; // 0 means inactived
-    }
+    };
+
+    payments: {
+        advertising: ENUMS.PaymentArray;
+    };
 
     defaultCustomerCredit: ENUMS.CREDIT; // days
     periodDaysNb: number;
@@ -443,7 +450,13 @@ class Market {
         return notTaken;
     }
 
+    onFinish() {
+        CashFlow.addPayment(this.advertisingCost, this.params.payments.advertising);
+    }
+
     getEndState(): any {
+        this.onFinish();
+
         var result = {};
 
         var state = {

@@ -9,6 +9,8 @@ import Insurance = require('../../Finance/src/Insurance');
 
 import ObjectsManager = require('../../ObjectsManager');
 
+import CashFlow = require('../../Finance/src/CashFlow');
+
 interface MachineCosts {
     maintenanceHourlyCost: number;
     overContractedMaintenanceHourlyCost: number;
@@ -42,6 +44,14 @@ interface MachineParams extends AbstractObject {
 
     machineCapacityByShift: number[];
     machineOperatorsNeededNb: number[];
+
+    payments: {
+        maintenance: ENUMS.PaymentArray;
+        running: ENUMS.PaymentArray;
+        decommissioning: ENUMS.PaymentArray;
+
+        acquisitions: ENUMS.PaymentArray;
+    }
 }
 
 interface MachineStats {
@@ -323,7 +333,18 @@ class Machine {
 
     onReady() { }
 
-    onFinish() {}
+    onFinish() {
+        // maintenance
+        CashFlow.addPayment(this.maintenanceCost, this.params.payments.maintenance);
+        CashFlow.addPayment(this.runningCost, this.params.payments.running);
+        CashFlow.addPayment(this.CO2PrimaryFootprintOffsettingCost, this.params.payments.running);
+
+        CashFlow.addPayment(this.decommissioningCost, this.params.payments.decommissioning);
+
+        CashFlow.addPayment(this.acquisitionCost, this.params.payments.acquisitions, ENUMS.ACTIVITY.INVESTING);
+
+        
+    }
        
 
     power(hoursNb: number): boolean {

@@ -91,3 +91,18 @@ export interface Company_BankFile {
     taxDue: number;
     tradePayables: number;
 }
+
+export interface Payment {
+    credit: CREDIT;
+    part: number;
+}
+
+export interface PaymentArray {
+    [index: string]: Payment;
+}
+
+export enum ACTIVITY  {
+    OPERATING,
+    FINANCING,
+    INVESTING
+};

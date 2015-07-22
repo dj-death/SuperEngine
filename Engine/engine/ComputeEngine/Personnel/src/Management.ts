@@ -7,6 +7,8 @@ import ObjectsManager = require('../../ObjectsManager');
 
 import Employee = require('./Employee');
 
+import CashFlow = require('../../Finance/src/CashFlow');
+
 
 interface ManagementParams {
     minDailyTrainedEmployeesNb: number;
@@ -19,6 +21,11 @@ interface ManagementParams {
 
     costs: {
         trainingConsultantDayRate: number;
+    }
+
+    payments: {
+        management: ENUMS.PaymentArray;
+        personnel: ENUMS.PaymentArray;
     }
 }
 
@@ -173,7 +180,14 @@ class Management {
         this.budget = budget;   
     }
 
+    onFinish() {
+        CashFlow.addPayment(this.personnelCost, this.params.payments.personnel);
+        CashFlow.addPayment(this.managementCost, this.params.payments.management);
+    }
+
     getEndState(): any {
+        this.onFinish();
+
         var result = {};
 
         var state = {

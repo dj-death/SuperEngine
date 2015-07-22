@@ -3,9 +3,9 @@ import Utils = require('../../../../utils/Utils');
 
 import BuildingContractor = require('../../Environnement/src/BuildingContractor');
 
-import ObjectsManager = require('../../ObjectsManager');
-
 import console = require('../../../../utils/logger');
+
+import CashFlow = require('../../Finance/src/CashFlow');
 
 
 interface SpaceParams {
@@ -21,7 +21,12 @@ interface SpaceParams {
     CO2Footprint: ENUMS.CO2Footprint;
 
     costs: {
-        fixedExpensesPerSquare: number; 
+        fixedExpensesPerSquare: number;
+    };
+
+    payments: {
+        acquisition: ENUMS.PaymentArray;
+        miscellaneous: ENUMS.PaymentArray;
     }
 }
 
@@ -59,7 +64,7 @@ class Space {
         // now ok
         this.initialised = true;
 
-        ObjectsManager.register(this, "production");
+        
     }
 
     reset() {
@@ -188,6 +193,13 @@ class Space {
             this.availableSpace += this.effectiveExtension;
         }
 
+    }
+
+    onFinish() {
+        CashFlow.addPayment(this.CO2PrimaryFootprintOffsettingCost, this.params.payments.miscellaneous);
+        CashFlow.addPayment(this.fixedCost, this.params.payments.miscellaneous);
+
+        CashFlow.addPayment(this.extensionCost, this.params.payments.acquisition, ENUMS.ACTIVITY.FINANCING);
     }
 
 }

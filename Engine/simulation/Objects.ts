@@ -42,10 +42,11 @@ import labourPools = require('./environnement/LabourPools');
 import Management = require('./personnel/Management');
 
 import Finance = require('../engine/ComputeEngine/Finance/src/Finance');
+import CashFlow = require('../engine/ComputeEngine/Finance/src/CashFlow');
 
 import insurances = require('./finance/Insurances');
 import bankAccounts = require('./finance/BankAccounts');
-
+import capital = require('./finance/Capital');
 
 var objects = {
     game: game,
@@ -60,8 +61,12 @@ var objects = {
     Finance: Finance,
     Management: Management,
 
+    CashFlow: CashFlow,
+
     alphaInsurance: insurances.alphaInsurance,
     eurobankAccount: bankAccounts.eurobankAccount,
+
+    capital: capital,
     
 
     eCommerce: eCommerce,

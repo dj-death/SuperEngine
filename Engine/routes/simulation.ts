@@ -301,7 +301,7 @@ function updateCompanyState(company, idx, period, lastState, environnement, orde
 
         var companyLs = lastState.length === 1 ? lastState[0] : lastState.filter(function (v) { return v.d_CID === company.d_CID });
 
-        SimMain.initialize(companyLs, period);
+        SimMain.initialize(companyLs, period, company.d_CID);
 
         SimMain.setDecisions(company);
 
@@ -323,7 +323,7 @@ function updateStates(companies, lastState, ordersMatrix, period) {
     companies.forEach(function (company, idx) {
         var companyLs = lastState.length === 1 ? lastState[0] : lastState.filter(function (v) { return v.d_CID === company.d_CID });
 
-        SimMain.initialize(companyLs, period);
+        SimMain.initialize(companyLs, period, company.d_CID);
 
         SimMain.setDecisions(company);
 

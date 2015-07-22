@@ -43,9 +43,18 @@ alphaBSubContracterParams = Utils.ObjectApply({}, subContracterDefaultParams, { 
 alphaCSubContracterParams = Utils.ObjectApply({}, subContracterDefaultParams, { manufacturingUnitCost: 120});
 
 
+var cashPayments: ENUMS.PaymentArray = {
+    "CASH": {
+        credit: ENUMS.CREDIT.CASH,
+        part: 1
+    }
+};
+
+
 var products = {
 
     alphaA: new SemiProduct({
+        id: "p1_alpha",
         label: "encours alpha Produit A",
         spaceNeeded: 0.25,
         
@@ -69,6 +78,8 @@ var products = {
     }),
 
     betaA: new SemiProduct({
+        id: "p1_beta",
+
         label: "encours beta Produit A",
         spaceNeeded: 0,
         
@@ -92,6 +103,8 @@ var products = {
     }),
 
     alphaB: new SemiProduct({
+        id: "p2_alpha",
+
         label: "encours alpha Produit B",
         spaceNeeded: 0.5,
         
@@ -115,6 +128,8 @@ var products = {
     }),
 
     betaB: new SemiProduct({
+        id: "p2_beta",
+
         label: "encours beta Produit B",
         spaceNeeded: 0,
         
@@ -138,6 +153,8 @@ var products = {
     }),
 
     alphaC: new SemiProduct({
+        id: "p3_alpha",
+
         label: "encours alpha Produit C",
         spaceNeeded: 1,
         
@@ -161,6 +178,8 @@ var products = {
     }),
 
     betaC: new SemiProduct({
+        id: "p3_beta",
+
         label: "encours alpha Produit A",
         spaceNeeded: 0,
         
@@ -206,6 +225,12 @@ var products = {
             inspectionUnit: 1,
             planningUnit: 1
 
+        },
+
+        payments: {
+            guaranteeServicing: cashPayments,
+            qualityControl: cashPayments,
+            development: cashPayments
         }
     }),
 
@@ -231,6 +256,12 @@ var products = {
             
             inspectionUnit: 1,
             planningUnit: 1
+        },
+
+        payments: {
+            guaranteeServicing: cashPayments,
+            qualityControl: cashPayments,
+            development: cashPayments
         }
     }),
 
@@ -256,6 +287,12 @@ var products = {
 
             inspectionUnit: 1,
             planningUnit: 1
+        },
+
+        payments: {
+            guaranteeServicing: cashPayments,
+            qualityControl: cashPayments,
+            development: cashPayments
         }
     }),
 

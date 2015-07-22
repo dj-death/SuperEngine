@@ -14,6 +14,8 @@ import ENUMS = require('../../ENUMS');
 import Utils = require('../../../../utils/Utils');
 import console = require('../../../../utils/logger');
 
+import ObjectsManager = require('../../ObjectsManager');
+
 
 class Factory extends Space  {
  
@@ -27,6 +29,8 @@ class Factory extends Space  {
 
         // TODO: add stocks
         this.usedSpace = this.ateliersSpaceUsed;
+
+        ObjectsManager.register(this, "production");
     }
 
     get ateliersSpaceUsed(): number {
@@ -41,6 +45,8 @@ class Factory extends Space  {
     
 
     getEndState(): any {
+        this.onFinish();
+
         var result = {};
 
         var state = {

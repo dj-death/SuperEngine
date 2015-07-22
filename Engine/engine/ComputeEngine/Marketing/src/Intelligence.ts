@@ -2,11 +2,18 @@
 import console = require('../../../../utils/logger');
 
 
+import CashFlow = require('../../Finance/src/CashFlow');
+
+import ENUMS = require('../../ENUMS');
+
+
 interface IntelligenceParam {
     costs: {
         marketSharesInfoCost: number;
         competitorsInfoCost: number;
     }
+
+    payments: ENUMS.PaymentArray;
 }
 
 class Intelligence {
@@ -61,7 +68,12 @@ class Intelligence {
         this.isCompetitorsInfoCommissioned = isCommissioned;
     }
 
+    onFinish() {
+        CashFlow.addPayment(this.BusinessIntelligenceCost, this.params.payments);
+    }
+
     getEndState(): any {
+        this.onFinish();
         var state = {
             "BusinessIntelligenceCost": this.BusinessIntelligenceCost
         };

@@ -170,6 +170,7 @@ export class Employee {
         return this._adjustedAvgEarnings || this.avgEarnings;
     }
 
+
     // helpers
     protected get maxDismissedNb(): number {
         return this.params.maxDismissedNb || Number.POSITIVE_INFINITY;
@@ -282,7 +283,6 @@ export class Employee {
     get avgEarnings(): number {
         return 0;
     }
-
 
     
 }

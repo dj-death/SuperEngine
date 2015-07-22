@@ -96,7 +96,7 @@
     "A86": "management_trainning",
 
     "A91": "shares_variation",
-    "A92": "dividend",
+    "A92": "dividend_rate",
     "A93": "term_loans",
     "A94": "term_deposit",
     "A73": "machine_boughtNb",

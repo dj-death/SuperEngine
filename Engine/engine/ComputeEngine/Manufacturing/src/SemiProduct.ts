@@ -12,6 +12,9 @@ import console = require('../../../../utils/logger');
 
 import ObjectsManager = require('../../ObjectsManager');
 
+
+import CashFlow = require('../../Finance/src/CashFlow');
+
 interface RawMaterialConsumptionCfg {
     rawMaterial?: RawMaterial;
     consoUnit: number;
@@ -23,6 +26,7 @@ interface ManufacturingCfg {
 }
 
 interface SemiProductParams {
+    id: string;
     // params
     spaceNeeded: number;
     label: string;
@@ -353,6 +357,34 @@ class SemiProduct {
         this.warehouse.moveIn(quantity, value, term);
 
         return true;
+    }
+
+    onFinish() {
+        if (this.subContracter) {
+            CashFlow.addPayment(this.purchasesValue, this.subContracter.params.payments);
+        }
+    }
+
+    getEndState(): any {
+        this.onFinish();
+
+        var result = {};
+
+        var state = {
+            
+        };
+
+        for (var key in state) {
+            if (!state.hasOwnProperty(key)) {
+                continue;
+            }
+
+            var prop = this.params.id + "_" + key;
+            result[prop] = state[key];
+        }
+
+        return result;
+
     }
 
 }

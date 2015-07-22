@@ -4,6 +4,10 @@ import Management = require('../../Personnel/src/Management');
 
 import console = require('../../../../utils/logger');
 
+import CashFlow = require('./CashFlow');
+
+import ENUMS = require('../../ENUMS');
+
 
 interface InsurancePlanOptions {
     primaryRiskRate: number;
@@ -23,6 +27,8 @@ interface InsuranceParams {
     // at this level risk is 0
     optimalManagementBudget: number;
     normalManagementBudget: number;
+
+    payments: ENUMS.PaymentArray;
 }
 
 class Insurance {
@@ -136,7 +142,13 @@ class Insurance {
         }
     }
 
+    onFinish() {
+        CashFlow.addPayment(this.premiumsCost, this.params.payments);
+    }
+
     getEndState(): any {
+        this.onFinish();
+
         var result = {};
 
         var state = {

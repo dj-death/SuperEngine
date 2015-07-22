@@ -13,7 +13,25 @@ var eCommerce = new ECommerce({
         closingDownFees: 5000,
         serviceCostRate: 0.03,
         websiteOnePortOperating: 1000
+    },
+
+    payments: {
+        ISP: {
+            "CASH": {
+                credit: ENUMS.CREDIT.CASH,
+                part: 1
+            }
+        },
+
+        websiteDev: {
+            "THREE_MONTH": {
+                credit: ENUMS.CREDIT.THREE_MONTH,
+                part: 1
+            }
+        }
     }
+
+
 });
 
 export = eCommerce;

@@ -8,6 +8,7 @@ import Factory = require('./Factory');
 import Utils = require('../../../../utils/Utils');
 import console = require('../../../../utils/logger');
 
+import ObjectsManager = require('../../ObjectsManager');
 
 class Land extends Space {
 
@@ -21,6 +22,8 @@ class Land extends Space {
         this.lastLandNetValue = lastLandNetValue;
 
         this.usedSpace = this.factoriesInitialSpace;
+
+        ObjectsManager.register(this, "production");
     }
 
     get accessAndParkingSpace(): number {
@@ -36,6 +39,8 @@ class Land extends Space {
     }
 
     getEndState(): any {
+        this.onFinish();
+
         var result = {};
 
         var state = {

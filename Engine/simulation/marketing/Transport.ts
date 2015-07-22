@@ -1,4 +1,13 @@
 ﻿import Transport = require('../../engine/ComputeEngine/Marketing/src/Transport');
+import ENUMS = require('../../engine/ComputeEngine/ENUMS');
+
+
+var defaultPayments: ENUMS.PaymentArray = {
+    "THREE_MONTH": {
+        credit: ENUMS.CREDIT.THREE_MONTH,
+        part: 1
+    }
+};
 
 var transports = {
     europeTrs: new Transport({
@@ -15,7 +24,9 @@ var transports = {
             containerShipmentCost: 0,
             
             productStorageCost: 3.50
-        }
+        },
+
+        payments: defaultPayments
     }),
 
     naftaTrs: new Transport({
@@ -30,7 +41,9 @@ var transports = {
             containerDailyHireCost: 650,
             containerShipmentCost: 8000,
             productStorageCost: 4
-        }
+        },
+
+        payments: defaultPayments
     }),
 
     internetTrs: new Transport({
@@ -46,7 +59,9 @@ var transports = {
             containerShipmentCost: 0,
             
             productStorageCost: 3.50
-        }
+        },
+
+        payments: defaultPayments
     })
 
 };

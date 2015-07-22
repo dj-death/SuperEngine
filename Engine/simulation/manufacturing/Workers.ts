@@ -5,6 +5,13 @@ import game = require('../Game');
 
 var weeksNbByPeriod = game.weeksNbByPeriod;
 
+var cashPayments: ENUMS.PaymentArray = {
+    "CASH": {
+        credit: ENUMS.CREDIT.CASH,
+        part: 1
+    }
+};
+
 var single: ENUMS.Shift,
     double: ENUMS.Shift,
     treble: ENUMS.Shift,
@@ -128,6 +135,8 @@ var workers = {
             training: 0
         },
 
+        payments: cashPayments,
+
         defaultRecruit: true,
         
         availablesShifts: [single, double, treble]
@@ -189,6 +198,8 @@ var workers = {
             dismissal: 5000,
             training: 8500
         },
+
+        payments: cashPayments,
 
         defaultRecruit: false,
 

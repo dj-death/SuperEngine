@@ -8,9 +8,14 @@ import ObjectsManager = require('../../ObjectsManager');
 import console = require('../../../../utils/logger');
 
 
+import CashFlow = require('./CashFlow');
+
+
 interface BankAccountParams {
     id: string;
     periodDaysNb: number;
+
+    payments: ENUMS.PaymentArray;
 }
 
 
@@ -156,9 +161,9 @@ class BankAccount {
     }
 
     get nextPeriodOverdraftLimit(): number {
-        //var company_BankFile = this.company.prepareCompanyBankFile();
+        var company_BankFile = this.company.prepareCompanyBankFile();
 
-        return 0;//this.bank.calcAuthorisedOverdraftLimit(company_BankFile);
+        return this.bank.calcAuthorisedOverdraftLimit(company_BankFile);
     }
 
     get overdraft(): number {
@@ -213,8 +218,13 @@ class BankAccount {
         return this.termLoansInterestPaid + this.overdraftInterestPaid;
     }
 
+    onFinish() {
+        CashFlow.addPayment(this.interestPaid, this.params.payments, ENUMS.ACTIVITY.FINANCING);
+    }
 
     getEndState(): any {
+        this.onFinish();
+
         var result = {};
 
         var state = {

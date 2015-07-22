@@ -65,7 +65,7 @@ export class Company {
     }
 
 
-    /*prepareCompanyBankFile(): ENUMS.Company_BankFile {
+    prepareCompanyBankFile(): ENUMS.Company_BankFile {
         var self = this;
 
         return {
@@ -73,9 +73,9 @@ export class Company {
             inventories: Company.ProductionDept.inventory_closingValue,
             taxDue: self.taxDue,
             tradeReceivables: Company.MarketingDept.salesOffice.tradeReceivablesValue,
-            tradePayables: self.tradePayablesValue
+            tradePayables: 0//self.tradePayablesValue
         };
-    }*/
+    }
 
     get propertyValue(): number {
         var lands = Company.ProductionDept.landNetValue;
@@ -172,9 +172,8 @@ export class Company {
         return 0;
     }
     
-    get tradePayablesValue(): number {
-        return 0;
-    }
+
+    
 
     public static getEndState(): any {
         var that = this.getInstance();

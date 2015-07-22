@@ -4,18 +4,19 @@ import ObjectsManager = require('../../ObjectsManager');
 import Utils = require('../../../../utils/Utils');
 import console = require('../../../../utils/logger');
 
+import CashFlow = require('../../Finance/src/CashFlow');
+
+import ENUMS = require('../../ENUMS');
+
 
 interface SalesOfficeParams {
     costs: {
         administrationCostRate: number;
     }
+
+    payments: ENUMS.PaymentArray;
 }
 
-/*
-interface SalesOfficeCost {
-    administrationCost: number;
-    totalCost: number;
-}*/
 
 class SalesOffice {
     private initialised: boolean;
@@ -103,7 +104,14 @@ class SalesOffice {
         return this.lastTradingReceivables + this.salesRevenue - this.tradingReceipts;
     }
 
+    onFinish() {
+        CashFlow.addPayment(this.administrationCost, this.params.payments);
+        CashFlow.addPayment(this.creditControlCost, this.params.payments);
+    }
+
     getEndState(): any {
+        this.onFinish();
+
         var result = {};
 
         var state = {

@@ -7,6 +7,10 @@ import Market = require('./Market');
 
 import console = require('../../../../utils/logger');
 
+import CashFlow = require('../../Finance/src/CashFlow');
+
+import ENUMS = require('../../ENUMS');
+
 
 interface SalesForceCost extends Employee.EmployeeCosts {
     minSupportPerAgent: number;
@@ -20,6 +24,7 @@ interface SalesForceParam extends Employee.EmployeeParams {
 
     isECommerceDistributor: boolean;
     costs: SalesForceCost;
+    payments: ENUMS.PaymentArray;
 }
 
 
@@ -99,7 +104,13 @@ class SalesForce extends Employee.Employee {
         return true;
     }
 
+    onFinish() {
+        CashFlow.addPayment(this.totalCost, this.params.payments);
+    }
+
     getEndState(): any {
+        this.onFinish();
+
         var result = {};
 
         var state = {

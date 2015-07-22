@@ -10,11 +10,18 @@ var salesForceDefaultCostsParams = {
     training: 0
 };
 
+var defaultPayments: ENUMS.PaymentArray = {
+    "CASH": {
+        credit: ENUMS.CREDIT.CASH,
+        part: 1
+    }
+};
+
 var agents = {
     euroAgents: new SalesForce({
         id: "m1_agents",
         category: "Agents Commerciaux",
-        isECommerceDistributor: false, 
+        isECommerceDistributor: false,
 
         isUnskilled: false,
 
@@ -25,7 +32,9 @@ var agents = {
 
         isCommissionsBasedOnOrders: true,
 
-        costs: salesForceDefaultCostsParams
+        costs: salesForceDefaultCostsParams,
+
+        payments: defaultPayments
     }),
 
     naftaDistributors: new SalesForce({
@@ -44,7 +53,9 @@ var agents = {
 
         isCommissionsBasedOnOrders: false,
 
-        costs: salesForceDefaultCostsParams
+        costs: salesForceDefaultCostsParams,
+
+        payments: defaultPayments
 
     }),
 
@@ -63,7 +74,9 @@ var agents = {
 
         isCommissionsBasedOnOrders: false,
 
-        costs: salesForceDefaultCostsParams
+        costs: salesForceDefaultCostsParams,
+
+        payments: defaultPayments
 
     })
 

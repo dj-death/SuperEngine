@@ -13,6 +13,22 @@ var management = new Management({
 
     costs: {
         trainingConsultantDayRate: 1000
+    },
+
+    payments: {
+        management: {
+            "CASH": {
+                credit: ENUMS.CREDIT.CASH,
+                part: 1
+            }
+        },
+
+        personnel: {
+            "CASH": {
+                credit: ENUMS.CREDIT.CASH,
+                part: 1
+            }
+        }
     }
 });
 

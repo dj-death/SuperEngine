@@ -13,6 +13,8 @@ import Insurance = require('../../Finance/src/Insurance');
 
 import ObjectsManager = require('../../ObjectsManager');
 
+import CashFlow = require('../../Finance/src/CashFlow');
+
 
 interface WorkerParams extends Employee.EmployeeParams {
     id: string;
@@ -49,6 +51,9 @@ interface WorkerParams extends Employee.EmployeeParams {
     surplusMaxDismissedPercent: number;
 
     canBringExternalWorkers: boolean;
+
+    payments: ENUMS.PaymentArray;
+
 }
 
 interface WorkerDecisions {
@@ -514,7 +519,14 @@ class Worker extends Employee.Employee {
         this.getReady();
     }
 
+    onFinish() {
+        CashFlow.addPayment(this.adjustedWages, this.params.payments);
+        CashFlow.addPayment(this.CO2PrimaryFootprintOffsettingCost, this.params.payments);
+    }
+
     getEndState(): any {
+        this.onFinish();
+
         var result = {};
 
         var state = {

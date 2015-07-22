@@ -14,6 +14,9 @@ import Insurance = require('../../Finance/src/Insurance');
 
 import ObjectsManager = require('../../ObjectsManager');
 
+import CashFlow = require('../../Finance/src/CashFlow');
+
+
 
 
 interface ProductCosts {
@@ -42,6 +45,12 @@ interface ProductParams  {
     lostProbability: number;
 
     costs: ProductCosts;
+
+    payments: {
+        guaranteeServicing: ENUMS.PaymentArray;
+        qualityControl: ENUMS.PaymentArray;
+        development: ENUMS.PaymentArray;
+    }
 }
 
 class Product {
@@ -492,7 +501,16 @@ class Product {
         this.servicedQ += quantity;
     }
 
+    onFinish() {
+        CashFlow.addPayment(this.guaranteeServicingCost, this.params.payments.guaranteeServicing);
+        CashFlow.addPayment(this.qualityControlCost, this.params.payments.qualityControl);
+        CashFlow.addPayment(this.prodPlanningCost, this.params.payments.qualityControl);
+        CashFlow.addPayment(this.productDevelopmentCost, this.params.payments.development);
+    }
+
     getEndState(): any {
+        this.onFinish();
+
         var result = {};
 
         var state = {

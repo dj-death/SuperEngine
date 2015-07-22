@@ -8,6 +8,10 @@ import Insurance = require('../../Finance/src/Insurance');
 
 import ObjectsManager = require('../../ObjectsManager');
 
+
+import CashFlow = require('../../Finance/src/CashFlow');
+
+
 interface WarehouseParams {
     lostProbability: number;
 
@@ -16,6 +20,9 @@ interface WarehouseParams {
         externalStorageUnitCost: number;
         fixedAdministrativeCost: number;
     }
+
+    payments?: ENUMS.PaymentArray;
+
 }
 
 interface StockedItem {
@@ -280,6 +287,25 @@ class Warehouse {
         }
 
         return quantity - lostQ;
+    }
+
+    onFinish() {
+        if (!this.params.payments) {
+            this.params.payments = {
+                "THREE_MONTH": {
+                    credit: ENUMS.CREDIT.THREE_MONTH,
+                    part: 1
+                }
+            };
+        }
+
+        CashFlow.addPayment(this.warehousingCost, this.params.payments);
+    }
+
+    getEndState(): any {
+        this.onFinish();
+
+        return {};
     }
 
 }

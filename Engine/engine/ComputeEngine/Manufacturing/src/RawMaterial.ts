@@ -7,6 +7,9 @@ import ObjectsManager = require('../../ObjectsManager');
 import console = require('../../../../utils/logger');
 
 
+import CashFlow = require('../../Finance/src/CashFlow');
+
+
 interface RawMaterialParams {
     id: string;
     spaceNeeded: number;
@@ -132,9 +135,13 @@ class RawMaterial {
 
     }
 
-    
+    onFinish() {
+        CashFlow.addPayment(this.purchasesValue, this.suppliers[0].params.payments);
+    }
 
     getEndState(): any {
+        this.onFinish();
+
         var result = {};
 
         var state = {

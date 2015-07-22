@@ -90,7 +90,7 @@ export function simulateEnv() {
     o.materialMarket.simulate();
 }
 
-export function initialize(lastState, currPeriod: number) {
+export function initialize(lastState, currPeriod: number, CID) {
 
     for (var key in lastState) {
         var value = lastState[key];
@@ -217,6 +217,14 @@ export function initialize(lastState, currPeriod: number) {
 
     o.eurobankAccount.init(o.Company.getInstance(), o.eurobank, cashBalance, lastState.termDeposit, lastState.termLoansValue, lastState.banksOverdraft, lastState.nextPOverdraftLimit);
 
+    var openingSharePrice = lastState.sharePrice || lastState["company" + CID + "_sharePricePerCent"] / 100;
+    var marketValuation = lastState.marketValuation || lastState["company" + CID + "_marketValuation"];
+    var sharesNb = lastState.sharesNb || Math.round(marketValuation / openingSharePrice);
+    var lastRetainedEarnings = lastState.retainedEarnings || lastState["company" + CID + "_retainedEarnings"];
+
+    o.capital.init(lastState.shareCapital, sharesNb, openingSharePrice, marketValuation, lastRetainedEarnings);
+
+
     // now registring responsability centers
 
     o.Production.init();
@@ -227,6 +235,8 @@ export function initialize(lastState, currPeriod: number) {
 
     o.Finance.init();
     o.Finance.register(o.ObjectsManager.retrieve("finance"));
+
+    o.CashFlow.init(o.game.daysNbByPeriod, lastState.tradePayablesValue);
 
     o.Company.init(o.CompanyParams, o.europe, o.Production.getInstance(), o.Marketing.getInstance(), o.Finance.getInstance(), o.Management);
 
@@ -429,8 +439,11 @@ export function setDecisions(dec) {
     o.alphaInsurance.takeoutInsurance(dec.insurance_plan);
 
     o.eurobankAccount.changeTermDepositAmount(dec.term_deposit * 1000);
-
     o.eurobankAccount.takeTermLoans(dec.term_loans * 1000);
+
+    o.capital.changeSharesNb(dec.shares_variation);
+
+    o.capital.payDividend(dec.dividend_rate);
 }
 
 

@@ -4,6 +4,10 @@ import ObjectsManager = require('../../ObjectsManager');
 
 import console = require('../../../../utils/logger');
 
+import CashFlow = require('../../Finance/src/CashFlow');
+
+import ENUMS = require('../../ENUMS');
+
 
 interface TransportParams {
     id: string;
@@ -16,7 +20,9 @@ interface TransportParams {
         containerDailyHireCost: number;
         containerShipmentCost: number;
         productStorageCost: number;
-    }
+    };
+
+    payments: ENUMS.PaymentArray;
 }
 
 
@@ -86,7 +92,13 @@ class Transport {
         this.totalContainersNb += containersNb;
     }
 
+    onFinish() {
+        CashFlow.addPayment(this.hiredTransportCost, this.params.payments);
+    }
+
     getEndState(): any {
+        this.onFinish();
+
         var result = {};
 
         var state = {

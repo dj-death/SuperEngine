@@ -41,8 +41,6 @@ class Bank {
         // Stack range exception
         this.centralBank = centralBank;
 
-        this.interestRate = centralBank.initialInterestBaseRate;
-
         this.initialised = true;
 
         ObjectsManager.register(this, "environnement", true);
@@ -53,7 +51,9 @@ class Bank {
         this.initialised = false;
     }
 
-    private interestRate: number;
+    private get interestRate(): number {
+        return this.centralBank.initialInterestBaseRate;
+    }
 
     get authorisedOverdraftInterestRate(): number {
         var baseRate = this.interestRate;

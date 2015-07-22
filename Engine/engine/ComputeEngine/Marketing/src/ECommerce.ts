@@ -6,6 +6,8 @@ import SalesForce = require('./SalesForce');
 import ObjectsManager = require('../../ObjectsManager');
 import console = require('../../../../utils/logger');
 
+import CashFlow = require('../../Finance/src/CashFlow');
+
 
 interface WebsiteCosts {
     serviceCostRate: number;
@@ -19,6 +21,11 @@ interface WebsiteParams {
     distributorsNb: number;
     capacityChangeEffectiveness: ENUMS.FUTURES;
     costs: WebsiteCosts;
+
+    payments: {
+        ISP: ENUMS.PaymentArray;
+        websiteDev: ENUMS.PaymentArray;
+    }
 }
 
 class ECommerce {
@@ -201,7 +208,17 @@ class ECommerce {
 
     }
 
+    onFinish() {
+        CashFlow.addPayment(this.ISPCost, this.params.payments.ISP);
+        CashFlow.addPayment(this.feesCost, this.params.payments.ISP);
+
+        CashFlow.addPayment(this.websiteDevelopmentCost, this.params.payments.websiteDev);
+    }
+
+
     getEndState(): any {
+        this.onFinish();
+
         var result = {};
 
         var state = {

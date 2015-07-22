@@ -1,5 +1,15 @@
 ﻿import Insurance = require('../../engine/ComputeEngine/Finance/src/Insurance');
 
+import ENUMS = require('../../engine/ComputeEngine/ENUMS');
+
+
+var defaultPayments: ENUMS.PaymentArray = {
+    "CASH": {
+        credit: ENUMS.CREDIT.CASH,
+        part: 1
+    }
+};
+
 var insurances = {
     alphaInsurance: new Insurance({
         id: "insurance1",
@@ -34,7 +44,9 @@ var insurances = {
         forceMajeureSequence: [0, 600, 51900, 0, 0],
 
         optimalManagementBudget: 200000,
-        normalManagementBudget: 115000
+        normalManagementBudget: 115000,
+
+        payments: defaultPayments
     })
 };
 

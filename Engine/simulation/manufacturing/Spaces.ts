@@ -3,6 +3,13 @@ import Factory = require('../../engine/ComputeEngine/Manufacturing/src/Factory')
 
 import ENUMS = require('../../engine/ComputeEngine/ENUMS');
 
+var cashPayments: ENUMS.PaymentArray = {
+    "CASH": {
+        credit: ENUMS.CREDIT.CASH,
+        part: 1
+    }
+};
+
 var spaces = {
     land: new Land({
         id: "land",
@@ -15,6 +22,11 @@ var spaces = {
 
         costs: {
             fixedExpensesPerSquare: 0
+        },
+
+        payments: {
+            acquisition: cashPayments,
+            miscellaneous: cashPayments
         },
 
         CO2Footprint: {
@@ -35,6 +47,11 @@ var spaces = {
 
         costs: {
             fixedExpensesPerSquare: 20
+        },
+
+        payments: {
+            acquisition: cashPayments,
+            miscellaneous: cashPayments
         },
 
         CO2Footprint: {

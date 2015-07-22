@@ -57,10 +57,9 @@
     <TypeScriptCompile Include="engine\ComputeEngine\Environnement\src\LabourPool.ts" />
     <TypeScriptCompile Include="engine\ComputeEngine\Environnement\src\Market.ts" />
     <TypeScriptCompile Include="engine\ComputeEngine\Environnement\src\MaterialMarket.ts" />
-    <TypeScriptCompile Include="engine\ComputeEngine\Finance\src\AdminExpenses.ts" />
     <TypeScriptCompile Include="engine\ComputeEngine\Finance\src\BankAccount.ts" />
-    <TypeScriptCompile Include="engine\ComputeEngine\Finance\src\Equity.ts" />
-    <TypeScriptCompile Include="engine\ComputeEngine\Finance\src\EXPENSES.ts" />
+    <TypeScriptCompile Include="engine\ComputeEngine\Finance\src\Capital.ts" />
+    <TypeScriptCompile Include="engine\ComputeEngine\Finance\src\CashFlow.ts" />
     <TypeScriptCompile Include="engine\ComputeEngine\Finance\src\Finance.ts" />
     <TypeScriptCompile Include="engine\ComputeEngine\Finance\src\Insurance.ts" />
     <TypeScriptCompile Include="engine\ComputeEngine\Manufacturing\src\AbstractObject.ts" />
@@ -109,6 +108,7 @@
     <TypeScriptCompile Include="simulation\environnement\LabourPools.ts" />
     <TypeScriptCompile Include="simulation\environnement\MaterialsMarkets.ts" />
     <TypeScriptCompile Include="simulation\finance\BankAccounts.ts" />
+    <TypeScriptCompile Include="simulation\finance\Capital.ts" />
     <TypeScriptCompile Include="simulation\finance\Insurances.ts" />
     <TypeScriptCompile Include="simulation\Game.ts" />
     <TypeScriptCompile Include="simulation\limits.ts" />

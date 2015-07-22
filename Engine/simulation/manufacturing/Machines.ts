@@ -1,6 +1,19 @@
 ﻿import Machine = require('../../engine/ComputeEngine/Manufacturing/src/Machine');
 import ENUMS = require('../../engine/ComputeEngine/ENUMS');
 
+var cashPayments: ENUMS.PaymentArray = {
+    "CASH": {
+        credit: ENUMS.CREDIT.CASH,
+        part: 1
+    }
+};
+
+var maintenancePayments: ENUMS.PaymentArray = {
+    "THREE_MONTH": {
+        credit: ENUMS.CREDIT.THREE_MONTH,
+        part: 1
+    }
+};
 
 var machines = {
     robot: new Machine({
@@ -22,6 +35,15 @@ var machines = {
             overheads: 3500,
             runningHour: 8,
             supervisionPerShift: 12500
+        },
+
+        payments: {
+            acquisitions: cashPayments,
+            running: cashPayments,
+            decommissioning: cashPayments,
+
+            maintenance: maintenancePayments
+
         },
 
         acquisitionPrice: 300000,

@@ -6,6 +6,17 @@ import game = require('../Game');
 
 var periodDaysNb = game.daysNbByPeriod;
 
+var advertisingPayments: ENUMS.PaymentArray = {
+    "THREE_MONTH": {
+        credit: ENUMS.CREDIT.THREE_MONTH,
+        part: 1
+    }
+};
+
+var defaultPayments = {
+    advertising: advertisingPayments  
+};
+
 var markets = {
     euroMarket: new Market({
         id: "m1",
@@ -26,6 +37,8 @@ var markets = {
             creditCardRatePerUnitSold: 0,
             creditControlUnitCost: 1
         },
+
+        payments: defaultPayments,
 
         defaultCustomerCredit: ENUMS.CREDIT.TWO_MONTH,
         periodDaysNb: periodDaysNb
@@ -52,6 +65,8 @@ var markets = {
             creditControlUnitCost: 1
         },
 
+        payments: defaultPayments,
+
         defaultCustomerCredit: ENUMS.CREDIT.THREE_MONTH,
         periodDaysNb: periodDaysNb
     }),
@@ -75,6 +90,8 @@ var markets = {
             creditCardRatePerUnitSold: 1,
             creditControlUnitCost: 0
         },
+
+        payments: defaultPayments,
 
         defaultCustomerCredit: ENUMS.CREDIT.CASH,
         periodDaysNb: periodDaysNb
