@@ -16,7 +16,8 @@ var salesOffice = new SalesOffice({
     },
 
 
-    payments: cashPayments
+    payments: cashPayments,
+    receipts: cashPayments
 });
 
 export = salesOffice;

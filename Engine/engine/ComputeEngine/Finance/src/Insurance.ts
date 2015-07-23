@@ -143,12 +143,11 @@ class Insurance {
     }
 
     onFinish() {
+        console.log("insurrance", this.premiumsCost); 
         CashFlow.addPayment(this.premiumsCost, this.params.payments);
     }
 
     getEndState(): any {
-        this.onFinish();
-
         var result = {};
 
         var state = {

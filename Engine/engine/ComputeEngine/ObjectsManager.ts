@@ -96,6 +96,33 @@ class ObjectsManager {
         delete this.getInstance().objects;
     }
 
+    public static finish() {
+        var objects: IObjects = this.getInstance().objects;
+        var deptObj;
+
+
+        for (var dept in objects) {
+            if (!objects.hasOwnProperty(dept)) {
+                continue;
+            }
+
+            deptObj = objects[dept];
+
+            var i = 0,
+                len = deptObj.length;
+
+            var item;
+
+            for (; i < len; i++) {
+
+                item = deptObj[i];
+
+                item.onFinish && item.onFinish();
+            }
+        }
+
+    }
+
     public static getObjectsEndState(): any {
         var result = {};
 

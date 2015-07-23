@@ -15,6 +15,8 @@ interface SalesOfficeParams {
     }
 
     payments: ENUMS.PaymentArray;
+
+    receipts: ENUMS.PaymentArray;
 }
 
 
@@ -107,10 +109,11 @@ class SalesOffice {
     onFinish() {
         CashFlow.addPayment(this.administrationCost, this.params.payments);
         CashFlow.addPayment(this.creditControlCost, this.params.payments);
+
+        CashFlow.addReceipt(this.tradingReceipts, this.params.receipts);
     }
 
     getEndState(): any {
-        this.onFinish();
 
         var result = {};
 
@@ -118,7 +121,7 @@ class SalesOffice {
             "salesRevenue": this.salesRevenue,
             "creditControlCost": this.creditControlCost,
             "salesOfficeCost": this.administrationCost,
-            "tradingReceipts": this.tradingReceipts,
+
             "tradeReceivablesValue": this.tradeReceivablesValue 
         };
 

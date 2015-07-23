@@ -461,9 +461,14 @@ export function getOrders(matrix: number[][]) {
 }
 
 export function getEndState() {
+    // trigger finish event on objects
+    o.ObjectsManager.finish();
+
     var endState = o.ObjectsManager.getObjectsEndState();
 
-    Utils.ObjectApply(endState, o.Production.getEndState(), o.Marketing.getEndState(),o.Environnement.getEndState(), o.Finance.getInstance(), o.Company.getInstance());
+    Utils.ObjectApply(endState, o.Production.getEndState(), o.Marketing.getEndState());
+    Utils.ObjectApply(endState, o.Finance.getInstance(), o.CashFlow.getEndState());
+    Utils.ObjectApply(endState, o.Company.getInstance(), o.Environnement.getEndState());
     
     // try to free memory
     o.ObjectsManager.clean();

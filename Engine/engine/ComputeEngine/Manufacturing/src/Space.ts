@@ -199,7 +199,10 @@ class Space {
         CashFlow.addPayment(this.CO2PrimaryFootprintOffsettingCost, this.params.payments.miscellaneous);
         CashFlow.addPayment(this.fixedCost, this.params.payments.miscellaneous);
 
-        CashFlow.addPayment(this.extensionCost, this.params.payments.acquisition, ENUMS.ACTIVITY.FINANCING);
+        CashFlow.addPayment(this.extensionCost, this.params.payments.acquisition, ENUMS.ACTIVITY.INVESTING);
+
+        console.log("CO2", this.CO2PrimaryFootprintOffsettingCost);
+        console.log("fixed", this.fixedCost);
     }
 
 }

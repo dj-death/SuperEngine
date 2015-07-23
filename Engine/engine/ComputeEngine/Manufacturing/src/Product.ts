@@ -504,13 +504,18 @@ class Product {
     onFinish() {
         CashFlow.addPayment(this.guaranteeServicingCost, this.params.payments.guaranteeServicing);
         CashFlow.addPayment(this.qualityControlCost, this.params.payments.qualityControl);
-        CashFlow.addPayment(this.prodPlanningCost, this.params.payments.qualityControl);
         CashFlow.addPayment(this.productDevelopmentCost, this.params.payments.development);
+
+        CashFlow.addPayment(this.prodPlanningCost, this.params.payments.qualityControl);
+
+        console.log("guaranteeServicingCost", this.guaranteeServicingCost);
+        console.log("qualityControlCost", this.qualityControlCost); 
+        console.log("productDevelopmentCost", this.productDevelopmentCost); 
+
+        console.log("planning", this.prodPlanningCost); 
     }
 
     getEndState(): any {
-        this.onFinish();
-
         var result = {};
 
         var state = {

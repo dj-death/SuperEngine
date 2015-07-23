@@ -223,8 +223,6 @@ class BankAccount {
     }
 
     getEndState(): any {
-        this.onFinish();
-
         var result = {};
 
         var state = {

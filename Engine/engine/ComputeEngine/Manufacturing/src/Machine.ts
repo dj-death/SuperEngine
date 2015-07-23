@@ -107,7 +107,6 @@ class Machine {
         this.lostNb = 0;
 
         this.onReady = function () { };
-        this.onFinish = function () { };
 
         this.initialised = false;
     }
@@ -343,7 +342,10 @@ class Machine {
 
         CashFlow.addPayment(this.acquisitionCost, this.params.payments.acquisitions, ENUMS.ACTIVITY.INVESTING);
 
-        
+        console.log("runningCost", this.runningCost); 
+        console.log("maintenanceCost", this.maintenanceCost); 
+        console.log("CO2", this.CO2PrimaryFootprintOffsettingCost);
+        console.log("decomm", this.decommissioningCost);
     }
        
 
@@ -450,8 +452,6 @@ class Machine {
 
     getEndState(): any {
         // finish everything for sync
-        this.onFinish();
-
         var result = {};
 
         var state = {

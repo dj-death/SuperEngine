@@ -33,13 +33,17 @@ class Bank {
         this.params = params;
     }
 
-    private centralBank: CentralBank;
+    //private centralBank: CentralBank;
+
+    private _interestRate: number;
 
     init(centralBank: CentralBank) {
         this.reset();
 
         // Stack range exception
-        this.centralBank = centralBank;
+        //this.centralBank = centralBank;
+
+        this._interestRate = centralBank.initialInterestBaseRate;
 
         this.initialised = true;
 
@@ -51,8 +55,8 @@ class Bank {
         this.initialised = false;
     }
 
-    private get interestRate(): number {
-        return this.centralBank.initialInterestBaseRate;
+    get interestRate(): number {
+        return this._interestRate;
     }
 
     get authorisedOverdraftInterestRate(): number {

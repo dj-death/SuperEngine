@@ -157,10 +157,10 @@ function objectSlice(object, startIdx, endIdx) {
     var size = keys.length;
     var idx = startIdx;
     var key;
-    if (endIdx > size - 1) {
-        endIdx = size - 1;
+    if (endIdx === undefined || endIdx > size) {
+        endIdx = size;
     }
-    for (; idx <= endIdx; idx++) {
+    for (; idx < endIdx; idx++) {
         key = keys[idx];
         slice[key] = object[key];
     }
@@ -173,13 +173,21 @@ function divideObject(object, packetSize, persistentKey, persistentValue) {
     var packets = [];
     var packet;
     var i = 0;
+    var startIdx;
+    var endIdx;
+    if (packetsNb <= 1) {
+        return [object];
+    }
     console.debug("Your doc ", size, "will be divided to ", packetsNb);
     for (; i < packetsNb; i++) {
-        packet = objectSlice(object, i, packetsNb - 1);
+        startIdx = i * packetSize;
+        endIdx = startIdx + packetSize;
+        packet = objectSlice(object, startIdx, endIdx);
         if (persistentKey) {
             packet[persistentKey] = persistentValue;
         }
         packets.push(packet);
+        startIdx = endIdx + 1;
     }
     return packets;
 }
@@ -273,10 +281,10 @@ function run(req, res, next) {
                 });
             });
             p.then(function (states) {
-                console.log('step 2');
+                console.debug('step 2');
                 return setIntelligenceInfos(companies);
             }).then(function (states) {
-                console.log('step 3', states.length);
+                console.debug('step 3', states.length);
                 states.forEach(function (state, idx) {
                     p = p.then(function () {
                         console.debug("now with " + idx + " of " + state.d_CompanyName);

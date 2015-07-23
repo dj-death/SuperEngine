@@ -114,6 +114,7 @@ export class Company {
 
         totalCost += Company.MarketingDept.salesOffice.administrationCost;
         totalCost += Company.MarketingDept.salesOffice.creditControlCost;
+        totalCost += Company.MarketingDept.intelligence.BusinessIntelligenceCost;
 
         totalCost += Company.ManagementDept.personnelCost;
         totalCost += Company.ManagementDept.managementCost;

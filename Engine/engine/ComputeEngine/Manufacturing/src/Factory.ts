@@ -45,8 +45,6 @@ class Factory extends Space  {
     
 
     getEndState(): any {
-        this.onFinish();
-
         var result = {};
 
         var state = {

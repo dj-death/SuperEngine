@@ -39,7 +39,6 @@ class Land extends Space {
     }
 
     getEndState(): any {
-        this.onFinish();
 
         var result = {};
 
