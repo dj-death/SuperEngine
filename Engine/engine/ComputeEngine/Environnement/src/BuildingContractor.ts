@@ -97,8 +97,8 @@ class BuildingContractor {
         if (plannedBuildingTotalCost <= client_creditWorthiness) {
             effectiveBuildingSquaresNb = requiredBuildingSquaresNb;
         } else {
-            // TODO
-            effectiveBuildingSquaresNb = 0;
+            // Verifiy
+            effectiveBuildingSquaresNb = Math.floor(client_creditWorthiness / this.initialBuildingSquareMetreCost);
         }
 
         return {

@@ -223,8 +223,10 @@ function updateCompanyState(company, idx, period, lastState, environnement, orde
         var companyLs = lastState.length === 1 ? lastState[0] : lastState.filter(function (v) {
             return v.d_CID === company.d_CID;
         });
-        SimMain.initialize(companyLs, period, company.d_CID);
-        SimMain.setDecisions(company);
+        var CID = company.d_CID || companyLs.d_CID || (idx + 1);
+        console.debug("ID", CID);
+        SimMain.initialize(companyLs, period, CID);
+        SimMain.setDecisions(company, companyLs);
         SimMain.getOrders(ordersMatrix[idx]);
         Utils.ObjectApply(company, SimMain.getEndState());
         deferred.resolve(company);
@@ -237,8 +239,10 @@ function updateStates(companies, lastState, ordersMatrix, period) {
         var companyLs = lastState.length === 1 ? lastState[0] : lastState.filter(function (v) {
             return v.d_CID === company.d_CID;
         });
-        SimMain.initialize(companyLs, period, company.d_CID);
-        SimMain.setDecisions(company);
+        var CID = company.d_CID || companyLs.d_CID || (idx + 1);
+        console.debug("ID", CID);
+        SimMain.initialize(companyLs, period, CID);
+        SimMain.setDecisions(company, companyLs);
         SimMain.getOrders(ordersMatrix[idx]);
         Utils.ObjectApply(company, SimMain.getEndState());
     });

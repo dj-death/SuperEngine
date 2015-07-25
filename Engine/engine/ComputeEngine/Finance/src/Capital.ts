@@ -37,7 +37,11 @@ class Capital {
 
     private lastRetainedEarnings: number;
 
-    init(initialShareCapital: number, sharesNb: number, openingSharePrice: number, openingMarketValuation: number, lastRetainedEarnings: number) {
+    private sharesNbAtStartOfYear: number;
+
+    currQuarter: number;
+
+    init(initialShareCapital: number, sharesNb: number, openingSharePrice: number, openingMarketValuation: number, lastRetainedEarnings: number, sharesNbAtStartOfYear: number, currQuarter: number) {
         this.reset();
 
         this.initialShareCapital = initialShareCapital;
@@ -46,6 +50,10 @@ class Capital {
         this.openingSharePrice = openingSharePrice;
 
         this.lastRetainedEarnings = lastRetainedEarnings;
+
+        this.sharesNbAtStartOfYear = sharesNbAtStartOfYear;
+
+        this.currQuarter = currQuarter;
 
         this.initialised = true;
 
@@ -60,7 +68,6 @@ class Capital {
     }
 
     // decision
-    sharesNbVariation: number;
     issuedSharesNb: number;
     repurchasedSharesNb: number;
 
@@ -69,46 +76,69 @@ class Capital {
 
     // result
     get sharesNb(): number {
-        return this.initialSharesNb + this.sharesNbVariation;
+        return this.initialSharesNb + this.issuedSharesNb - this.repurchasedSharesNb;
     }
 
-    //------
-    get sharesValue(): number {
-
+    get marketValuation(): number {
         return this.sharesNb * this.sharePrice;
     }
 
     get sharePrice(): number {
-        return - 1;
+        return this.openingSharePrice;
     }
     
     get shareCapital(): number {
-        return this.sharesNb * this.sharePrice;
+        return this.sharesNb * this.params.shareNominalValue;
     }
 
     // actions
-    changeSharesNb(amount: number) {
-        if (amount > 0) {
-            this.issueShares(amount);
+    changeSharesNb(quantity: number) {
+        if (quantity > 0) {
+            this.issueShares(quantity);
         }
 
-        if (amount < 0) {
-            this.repurchaseShares(amount);
+        if (quantity < 0) {
+            this.repurchaseShares(quantity);
         }
 
-        //this.sharesNbVariation; 
     }
 
-    issueShares(amount: number) {
+    issueShares(quantity: number) {
         if (this.openingSharePrice < this.params.restrictions.minSharePriceToIssueShares) {
+            this.issuedSharesNb = 0;
+
             return;
         }
+
+        var variationRate = Math.abs((this.initialSharesNb - this.sharesNbAtStartOfYear) / this.sharesNbAtStartOfYear);
+        var maxAllowedVariationRate = this.params.restrictions.capitalAnnualVariationLimitRate - variationRate;
+        var currPeriodMaxIssuedSharesNb = Math.round(maxAllowedVariationRate * this.sharesNbAtStartOfYear);
+
+        if (quantity > currPeriodMaxIssuedSharesNb) {
+            this.issuedSharesNb = currPeriodMaxIssuedSharesNb;
+            return;
+        }
+
+        this.issuedSharesNb = quantity;
     }
 
-    repurchaseShares(amount: number) {
+    repurchaseShares(quantity: number) {
         if (this.openingSharePrice < this.params.restrictions.minSharePriceToRepurchaseShares) {
+            this.repurchasedSharesNb = 0;
+
             return;
         }
+
+        var variationRate = Math.abs((this.initialSharesNb - this.sharesNbAtStartOfYear) / this.sharesNbAtStartOfYear);
+        var maxAllowedVariationRate = this.params.restrictions.capitalAnnualVariationLimitRate - variationRate;
+        var currPeriodMaxRepurchasedSharesNb = Math.round(maxAllowedVariationRate * this.sharesNbAtStartOfYear);
+
+        if (quantity > currPeriodMaxRepurchasedSharesNb) {
+            this.repurchasedSharesNb = currPeriodMaxRepurchasedSharesNb;
+            return;
+        }
+
+        this.repurchasedSharesNb = quantity;
     }
 
     payDividend(rate: number) {
@@ -129,30 +159,50 @@ class Capital {
     // cost
 
     get dividendPaid(): number {
-        return this.dividendRate * this.initialShareCapital;
+        return this.initialShareCapital * this.dividendRate;
     }
 
     get sharesIssued(): number {
-        return this.dividendRate * this.issuedSharesNb;
+        return this.issuedSharesNb * this.openingSharePrice;
     }
 
     get sharesRepurchased(): number {
-        return this.dividendRate * this.repurchasedSharesNb;
+        return this.repurchasedSharesNb * this.openingSharePrice;
     }
+
+    get sharePremiumAccount(): number {
+        if (this.sharesIssued > 0) {
+            return this.issuedSharesNb * (this.openingSharePrice - this.params.shareNominalValue);
+        }
+
+        return 0;
+    }
+
+    
 
     onFinish() {
         CashFlow.addPayment(this.dividendPaid, this.params.payments, ENUMS.ACTIVITY.FINANCING);
         CashFlow.addPayment(this.sharesRepurchased, this.params.payments, ENUMS.ACTIVITY.FINANCING);
 
         CashFlow.addReceipt(this.sharesIssued, this.params.payments, ENUMS.ACTIVITY.FINANCING);
+
+        // setup again as w're about a new year
+        if (this.currQuarter === 4) {
+            this.sharesNbAtStartOfYear = this.sharesNb;
+        }
     }
 
     getEndState(): any {
 
         var state = {
+            "shareCapital": this.shareCapital,
+            "sharePremiumAccount": this.sharePremiumAccount,
+
             "sharesRepurchased": this.sharesRepurchased,
             "sharesIssued": this.sharesIssued,
-            "dividendPaid": this.dividendPaid
+            "dividendPaid": this.dividendPaid,
+
+            "sharesNbAtStartOfYear": this.sharesNbAtStartOfYear
         };
 
         return state;

@@ -137,7 +137,6 @@ class RawMaterial {
 
     onFinish() {
         CashFlow.addPayment(this.purchasesValue, this.suppliers[0].params.payments);
-        console.log("RMpurchasesValue", this.purchasesValue); 
     }
 
     getEndState(): any {

@@ -94,8 +94,6 @@ class Transport {
 
     onFinish() {
         CashFlow.addPayment(this.hiredTransportCost, this.params.payments);
-
-        console.log("Trs", this.hiredTransportCost); 
     }
 
     getEndState(): any {

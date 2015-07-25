@@ -167,7 +167,7 @@ class Space {
         return gotSpace;
     }
 
-    extend(extension: number) {
+    extend(extension: number, creditWorthiness?: number) {
         if (!this.initialised) {
             console.debug('not initialised');
             return false;
@@ -180,7 +180,7 @@ class Space {
 
         var possibleExtension = this.unusedSpace <= extension ? extension : this.unusedSpace;
 
-        var extensionRes = this.contractor.build(possibleExtension);
+        var extensionRes = this.contractor.build(possibleExtension, creditWorthiness);
 
         var effectiveExtension = extensionRes.squaresNb;
         var extensionDuration = extensionRes.duration;
@@ -200,9 +200,6 @@ class Space {
         CashFlow.addPayment(this.fixedCost, this.params.payments.miscellaneous);
 
         CashFlow.addPayment(this.extensionCost, this.params.payments.acquisition, ENUMS.ACTIVITY.INVESTING);
-
-        console.log("CO2", this.CO2PrimaryFootprintOffsettingCost);
-        console.log("fixed", this.fixedCost);
     }
 
 }

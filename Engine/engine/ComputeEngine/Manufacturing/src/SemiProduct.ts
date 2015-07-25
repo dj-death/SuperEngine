@@ -362,7 +362,6 @@ class SemiProduct {
     onFinish() {
         if (this.subContracter) {
             CashFlow.addPayment(this.purchasesValue, this.subContracter.params.payments);
-            console.log("SP purchase", this.purchasesValue);
         }
     }
 

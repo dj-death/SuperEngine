@@ -90,7 +90,7 @@ export function simulateEnv() {
     o.materialMarket.simulate();
 }
 
-export function initialize(lastState, currPeriod: number, CID) {
+export function initialize(lastState, currPeriod: number, CID: number) {
 
     for (var key in lastState) {
         var value = lastState[key];
@@ -215,14 +215,19 @@ export function initialize(lastState, currPeriod: number, CID) {
 
     var cashBalance = lastState.cashBalance || (lastState.cashValue - lastState.banksOverdraft);
 
-    o.eurobankAccount.init(o.Company.getInstance(), o.eurobank, cashBalance, lastState.termDeposit, lastState.termLoansValue, lastState.banksOverdraft, lastState.nextPOverdraftLimit);
+    o.eurobankAccount.init(o.eurobank, cashBalance, lastState.termDeposit, lastState.termLoansValue, lastState.banksOverdraft, lastState.nextPOverdraftLimit);
 
-    var openingSharePrice = lastState.sharePrice || lastState["company" + CID + "_sharePricePerCent"] / 100;
+    var openingSharePrice = lastState.sharePrice || lastState["company" + CID + "_sharePricePerCent"] / 10000;
     var marketValuation = lastState.marketValuation || lastState["company" + CID + "_marketValuation"];
     var sharesNb = lastState.sharesNb || Math.round(marketValuation / openingSharePrice);
     var lastRetainedEarnings = lastState.retainedEarnings || lastState["company" + CID + "_retainedEarnings"];
 
-    o.capital.init(lastState.shareCapital, sharesNb, openingSharePrice, marketValuation, lastRetainedEarnings);
+    var lastQuarter = lastState.period_quarter || lastState.period;
+    var currQuarter = lastQuarter < 4 ? lastQuarter + 1 : 1;
+
+    var sharesNbAtStartOfYear = lastState.sharesNbAtStartOfYear || sharesNb;
+
+    o.capital.init(lastState.shareCapital, sharesNb, openingSharePrice, marketValuation, lastRetainedEarnings, sharesNbAtStartOfYear, currQuarter);
 
 
     // now registring responsability centers
@@ -240,12 +245,12 @@ export function initialize(lastState, currPeriod: number, CID) {
 
     o.CashFlow.init(o.eurobankAccount, o.game.daysNbByPeriod, initialCashFlowBalance, lastState.tradePayablesValue);
 
-    o.Company.init(o.CompanyParams, o.europe, o.Production.getInstance(), o.Marketing.getInstance(), o.Finance.getInstance(), o.Management);
+    o.Company.init(o.CompanyParams, o.europe, o.Production.getInstance(), o.Marketing.getInstance(), o.Finance.getInstance(), o.CashFlow.getInstance(), o.Management, currQuarter, lastState.taxDue, lastState.taxableProfitLoss, lastRetainedEarnings);
 
 }
 
 
-export function setDecisions(dec) {
+export function setDecisions(dec, lastState) {
 
     // machines decisions
     o.robot.buy(dec.machine_boughtNb);
@@ -277,6 +282,10 @@ export function setDecisions(dec) {
 
     o.machinist.setShift(dec.shift_level);
     o.machinist.pay(dec.assemblyWorkers_wageRate / 100);
+
+    var lastCreditWorthiness = lastState.creditWorthiness || lastState.nextPBorrowingPower + lastState.cashValue;
+
+    o.factory.extend(dec.factory_extension, lastCreditWorthiness);
 
     // Management
     o.Management.allocateBudget(dec.management_budget * 1000);

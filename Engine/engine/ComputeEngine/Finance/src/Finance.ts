@@ -1,6 +1,6 @@
 ﻿import Insurance = require('./Insurance');
 import BankAccount = require('./BankAccount');
-
+import Capital = require('./Capital');
 
 import Utils = require('../../../../utils/Utils');
 import console = require('../../../../utils/logger');
@@ -12,6 +12,8 @@ class Finance {
     private insurances: Insurance[] = [];
 
     private bankAccounts: BankAccount[] = [];
+
+    capital: Capital;
 
     public static init() {
         if (Finance._instance) {
@@ -55,7 +57,22 @@ class Finance {
             else if (object instanceof BankAccount) {
                 that.bankAccounts.push(object);
             }
+
+            else if (object instanceof Capital) {
+                that.capital = object;
+            }
         }
+    }
+
+    calcOverdraftLimit(company_BankFile): number {
+        var sums = 0;
+
+        this.bankAccounts.forEach(function (account) {
+            sums += account.calcOverdraftLimit(company_BankFile);
+
+        });
+
+        return sums;
     }
     
     get insurancesPremiumsCost(): number {

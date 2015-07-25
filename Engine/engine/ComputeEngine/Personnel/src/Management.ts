@@ -183,9 +183,6 @@ class Management {
     onFinish() {
         CashFlow.addPayment(this.personnelCost, this.params.payments.personnel);
         CashFlow.addPayment(this.managementCost, this.params.payments.management);
-
-        console.log("managementCost", this.managementCost); 
-        console.log("personnelCost", this.personnelCost); 
     }
 
     getEndState(): any {

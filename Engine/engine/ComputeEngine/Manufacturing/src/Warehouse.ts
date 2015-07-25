@@ -300,8 +300,6 @@ class Warehouse {
         }
 
         CashFlow.addPayment(this.warehousingCost, this.params.payments);
-
-        console.log("Stock", this.warehousingCost);
     }
 
     getEndState(): any {

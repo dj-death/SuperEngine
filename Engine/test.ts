@@ -46,9 +46,10 @@ var lastEnvState = hist;
 SimMain.initEnvironnemet(lastEnvState);
 SimMain.simulateEnv();
 
+var CID = dec.d_CID || hist.d_CID || 1;
 
-SimMain.initialize(hist);
-SimMain.setDecisions(dec);
+SimMain.initialize(hist, 1, CID);
+SimMain.setDecisions(dec, hist);
 SimMain.getOrders(ordersMatrix[0]);
 
 

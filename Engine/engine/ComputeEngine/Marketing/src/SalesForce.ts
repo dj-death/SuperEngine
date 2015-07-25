@@ -106,8 +106,6 @@ class SalesForce extends Employee.Employee {
 
     onFinish() {
         CashFlow.addPayment(this.totalCost, this.params.payments);
-
-        console.log("SF", this.totalCost); 
     }
 
     getEndState(): any {

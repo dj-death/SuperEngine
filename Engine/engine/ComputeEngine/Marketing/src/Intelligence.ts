@@ -71,7 +71,6 @@ class Intelligence {
     onFinish() {
         CashFlow.addPayment(this.BusinessIntelligenceCost, this.params.payments);
 
-        console.log("BI", this.BusinessIntelligenceCost); 
     }
 
     getEndState(): any {

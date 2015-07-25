@@ -315,10 +315,13 @@ function updateCompanyState(company, idx, period, lastState, environnement, orde
     setImmediate(function () {
 
         var companyLs = lastState.length === 1 ? lastState[0] : lastState.filter(function (v) { return v.d_CID === company.d_CID });
+        var CID = company.d_CID || companyLs.d_CID || (idx + 1);
 
-        SimMain.initialize(companyLs, period, company.d_CID);
+        console.debug("ID", CID);
 
-        SimMain.setDecisions(company);
+        SimMain.initialize(companyLs, period, CID);
+
+        SimMain.setDecisions(company, companyLs);
 
         SimMain.getOrders(ordersMatrix[idx]);
 
@@ -337,10 +340,13 @@ function updateStates(companies, lastState, ordersMatrix, period) {
 
     companies.forEach(function (company, idx) {
         var companyLs = lastState.length === 1 ? lastState[0] : lastState.filter(function (v) { return v.d_CID === company.d_CID });
+        var CID = company.d_CID || companyLs.d_CID || (idx + 1);
 
-        SimMain.initialize(companyLs, period, company.d_CID);
+        console.debug("ID", CID);
 
-        SimMain.setDecisions(company);
+        SimMain.initialize(companyLs, period, CID);
+
+        SimMain.setDecisions(company, companyLs);
 
         SimMain.getOrders(ordersMatrix[idx]);
 
@@ -387,6 +393,7 @@ export function run (req, res, next) {
 
             // we don't care whatever company is
             var lastEnvState = data[0];
+
             SimMain.initEnvironnemet(lastEnvState, period);
             SimMain.simulateEnv();
 

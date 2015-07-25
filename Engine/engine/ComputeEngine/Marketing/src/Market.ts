@@ -452,8 +452,6 @@ class Market {
 
     onFinish() {
         CashFlow.addPayment(this.advertisingCost, this.params.payments.advertising);
-
-        console.log("ads", this.advertisingCost); 
     }
 
     getEndState(): any {

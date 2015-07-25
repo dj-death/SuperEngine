@@ -3,6 +3,8 @@ import Marketing = require('./Marketing/src/Marketing');
 import Management = require('./Personnel/src/Management');
 import Finance = require('./Finance/src/Finance');
 
+import CashFlow = require('./Finance/src/CashFlow');
+
 import Economy = require('./Environnement/src/Economy');
 
 
@@ -12,7 +14,8 @@ import console = require('../../utils/logger');
 
 
 export interface CompanyParams {
-    defaultShareCapital: number;
+    taxAnnumRate: number;
+    taxAssessedPaymentQuarter: number;
 }
 
 export class Company {
@@ -25,11 +28,18 @@ export class Company {
     static ManagementDept: Management;
     static FinanceDept: Finance;
 
+    static CashFlow: CashFlow;
+
     static economy: Economy;
 
-    static initialShareCapital: number;
+    static currentQuarter: number;
 
-    public static init(params: CompanyParams, economy: Economy, ProductionDept: Production, MarketingDept: Marketing, FinanceDept: Finance, ManagementDept: Management, initialShareCapital?: number) {
+    static lastTaxDue: number;
+    static previousTaxableProfitLoss: number;
+
+    static previousRetainedEarnings: number;
+
+    public static init(params: CompanyParams, economy: Economy, ProductionDept: Production, MarketingDept: Marketing, FinanceDept: Finance, cashFlow: CashFlow, ManagementDept: Management, quarter: number, lastTaxDue: number, previousTaxableProfitLoss: number, previousRetainedEarnings: number) {
         if (Company._instance) {
             delete Company._instance;
         }
@@ -45,7 +55,14 @@ export class Company {
         Company.ManagementDept = ManagementDept;
         Company.FinanceDept = FinanceDept;
 
-        Company.initialShareCapital = initialShareCapital ? initialShareCapital : Company.params.defaultShareCapital;
+        Company.CashFlow = cashFlow;
+
+        Company.currentQuarter = quarter;
+
+        Company.lastTaxDue = lastTaxDue;
+        Company.previousTaxableProfitLoss = previousTaxableProfitLoss;
+
+        Company.previousRetainedEarnings = previousRetainedEarnings;
     }
 
     constructor() {
@@ -73,7 +90,7 @@ export class Company {
             inventories: Company.ProductionDept.inventory_closingValue,
             taxDue: self.taxDue,
             tradeReceivables: Company.MarketingDept.salesOffice.tradeReceivablesValue,
-            tradePayables: 0//self.tradePayablesValue
+            tradePayables: Company.CashFlow.tradePayablesValue
         };
     }
 
@@ -159,8 +176,54 @@ export class Company {
         return result;
     }
 
+    get previousTaxableProfitLoss(): number {
+        // accumulate just for this year not previous
+        if (Company.currentQuarter !== 1) {
+            return Company.previousTaxableProfitLoss;
+        }
+
+        // case of loss last year
+        if (Company.currentQuarter === 1 && Company.previousTaxableProfitLoss < 0) {
+            return Company.previousTaxableProfitLoss;
+        }
+
+    }
+
+    get taxableProfitLoss(): number {
+        return this.beforeTaxProfitLoss + this.previousTaxableProfitLoss;
+    }
+
+    get taxDue(): number {
+        if (Company.currentQuarter === 4) {
+            if (this.taxableProfitLoss > 0) {
+                return Math.round(this.taxableProfitLoss * Company.params.taxAnnumRate);
+            }
+
+            return 0;
+        }
+
+        else if (Company.currentQuarter !== Company.params.taxAssessedPaymentQuarter) {
+            return Company.lastTaxDue;
+        }
+
+        return 0;
+    }
+
+
     get taxAssessed(): number {
-        return -1;
+        if (Company.currentQuarter === 4) {
+            return this.taxDue;
+        }
+
+        return 0;
+    }
+
+    get taxPaid(): number {
+        if (Company.currentQuarter === Company.params.taxAssessedPaymentQuarter) {
+            return this.taxDue;
+        }
+
+        return 0;
     }
 
     get currPeriodProfitLoss(): number {
@@ -169,11 +232,37 @@ export class Company {
         return result;
     }
 
-    get taxDue(): number {
-        return 0;
+    get retainedEarningsTransfered(): number {
+        return this.currPeriodProfitLoss - Company.FinanceDept.capital.dividendPaid;
     }
-    
 
+    get previousRetainedEarnings(): number {
+        return Company.previousRetainedEarnings;
+    }
+
+    get retainedEarnings(): number {
+        return this.retainedEarningsTransfered + this.previousRetainedEarnings;
+    }
+
+    get equityTotalValue(): number {
+        var capital = Company.FinanceDept.capital;
+
+        return capital.shareCapital + capital.sharePremiumAccount + this.retainedEarnings;
+    }
+
+    get nextPOverdraftLimit(): number {
+        var company_bankFile = this.prepareCompanyBankFile();
+
+        return Company.FinanceDept.calcOverdraftLimit(company_bankFile);
+    }
+
+    get nextPBorrowingPower(): number {
+        return Company.FinanceDept.capital.marketValuation * 0.5 - Company.FinanceDept.termLoansValue - this.nextPOverdraftLimit;
+    }
+
+    get creditWorthiness(): number {
+        return this.nextPBorrowingPower + Company.FinanceDept.cashValue;
+    }
     
 
     public static getEndState(): any {

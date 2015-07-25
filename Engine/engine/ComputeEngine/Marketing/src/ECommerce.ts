@@ -213,9 +213,6 @@ class ECommerce {
         CashFlow.addPayment(this.feesCost, this.params.payments.ISP);
 
         CashFlow.addPayment(this.websiteDevelopmentCost, this.params.payments.websiteDev);
-
-        console.log("ISP", this.ISPCost); 
-        console.log("websiteDevelopmentCost", this.websiteDevelopmentCost); 
     }
 
 

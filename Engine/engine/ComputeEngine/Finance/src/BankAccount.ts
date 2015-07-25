@@ -1,7 +1,5 @@
 ﻿import Bank = require('../../Environnement/src/Bank');
 import ENUMS = require('../../ENUMS');
-import Company = require('../../Company');
-
 
 import ObjectsManager = require('../../ObjectsManager');
 
@@ -28,13 +26,11 @@ class BankAccount {
         this.params = params;
     }
 
-    private company: Company.Company;
     private bank: Bank;
 
-    init(company: Company.Company, bank: Bank, initialBalance: number = 0, lastTermDeposit: number = 0, lastTermLoans: number = 0, lastOverdraft: number = 0, currPeriodOverdraftLimit: number = Number.MAX_VALUE) {
+    init(bank: Bank, initialBalance: number = 0, lastTermDeposit: number = 0, lastTermLoans: number = 0, lastOverdraft: number = 0, currPeriodOverdraftLimit: number = Number.MAX_VALUE) {
         this.reset();
 
-        this.company = company;
         this.bank = bank;
 
         this.initialBalance = initialBalance;
@@ -148,6 +144,10 @@ class BankAccount {
         this.initialTermLoans -= amount;
     }
 
+    calcOverdraftLimit(company_BankFile): number {
+        return this.bank.calcAuthorisedOverdraftLimit(company_BankFile);
+    }
+
     // result
     
     get cash(): number {
@@ -156,12 +156,6 @@ class BankAccount {
 
     get balance(): number {
         return this.credit - this.debit - this.overdraft;
-    }
-
-    get nextPeriodOverdraftLimit(): number {
-        var company_BankFile = this.company.prepareCompanyBankFile();
-
-        return this.bank.calcAuthorisedOverdraftLimit(company_BankFile);
     }
 
     get overdraft(): number {

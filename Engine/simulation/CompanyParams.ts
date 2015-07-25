@@ -1,7 +1,8 @@
 ﻿import Company = require('../engine/ComputeEngine/Company');
 
 var CompanyParams: Company.CompanyParams = {
-    defaultShareCapital: 0
+    taxAnnumRate: 0.3,
+    taxAssessedPaymentQuarter: 2
 };
 
 

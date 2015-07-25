@@ -522,9 +522,6 @@ class Worker extends Employee.Employee {
     onFinish() {
         CashFlow.addPayment(this.adjustedWages, this.params.payments);
         CashFlow.addPayment(this.CO2PrimaryFootprintOffsettingCost, this.params.payments);
-
-        console.log("wages ", this.adjustedWages);
-        console.log("CO2", this.CO2PrimaryFootprintOffsettingCost);
     }
 
     getEndState(): any {
