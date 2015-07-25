@@ -1,5 +1,8 @@
 ﻿import Capital = require('../../engine/ComputeEngine/Finance/src/Capital');
 
+import ENUMS = require('../../engine/ComputeEngine/ENUMS');
+
+
 var capital = new Capital({
     shareNominalValue: 1,
 
@@ -8,6 +11,13 @@ var capital = new Capital({
 
         minSharePriceToIssueShares: 1,
         minSharePriceToRepurchaseShares: 1
+    },
+
+    payments: {
+        "CASH": {
+            credit: ENUMS.CREDIT.CASH,
+            part: 1
+        }
     }
 });
 

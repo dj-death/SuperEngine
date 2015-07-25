@@ -39,6 +39,8 @@ var machines = {
 
         payments: {
             acquisitions: cashPayments,
+            disposals: cashPayments,
+
             running: cashPayments,
             decommissioning: cashPayments,
 

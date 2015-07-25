@@ -51,6 +51,7 @@ interface MachineParams extends AbstractObject {
         decommissioning: ENUMS.PaymentArray;
 
         acquisitions: ENUMS.PaymentArray;
+        disposals: ENUMS.PaymentArray;
     }
 }
 
@@ -159,8 +160,26 @@ class Machine {
         return this.params.spaceNeeded * this.machinesNb;
     }
 
+    // When you decide to sell machines, the oldest are sold first, 
+    // at the start of next quarter, at their depreciated (book) value last quarter.
     get disposalValue(): number {
-        return this.effectiveSoldNb * this.params.disposalPrice;
+        var disposalValue = 0;
+
+        var soldNb = this.effectiveSoldNb;
+        var i = 0;
+
+        var age;
+        var netRate = 1 - this.params.depreciationRate;
+        var depreciatedValue;
+
+        for (; i < soldNb; i++) {
+            age = this.machinesStats[i].age;
+            depreciatedValue = Math.ceil(this.params.acquisitionPrice * Math.pow(netRate, age));
+
+            disposalValue += depreciatedValue;
+        }
+
+        return disposalValue; 
     }
 
 
@@ -331,22 +350,6 @@ class Machine {
     }
 
     onReady() { }
-
-    onFinish() {
-        // maintenance
-        CashFlow.addPayment(this.maintenanceCost, this.params.payments.maintenance);
-        CashFlow.addPayment(this.runningCost, this.params.payments.running);
-        CashFlow.addPayment(this.CO2PrimaryFootprintOffsettingCost, this.params.payments.running);
-
-        CashFlow.addPayment(this.decommissioningCost, this.params.payments.decommissioning);
-
-        CashFlow.addPayment(this.acquisitionCost, this.params.payments.acquisitions, ENUMS.ACTIVITY.INVESTING);
-
-        console.log("runningCost", this.runningCost); 
-        console.log("maintenanceCost", this.maintenanceCost); 
-        console.log("CO2", this.CO2PrimaryFootprintOffsettingCost);
-        console.log("decomm", this.decommissioningCost);
-    }
        
 
     power(hoursNb: number): boolean {
@@ -448,6 +451,18 @@ class Machine {
         this.maintenancePlannedHoursNb = hoursByMachineNb * this.machinesNb;
 
         return true;
+    }
+
+    onFinish() {
+        // maintenance
+        CashFlow.addPayment(this.maintenanceCost, this.params.payments.maintenance);
+        CashFlow.addPayment(this.runningCost, this.params.payments.running);
+        CashFlow.addPayment(this.CO2PrimaryFootprintOffsettingCost, this.params.payments.running);
+
+        CashFlow.addPayment(this.decommissioningCost, this.params.payments.decommissioning);
+
+        CashFlow.addPayment(this.acquisitionCost, this.params.payments.acquisitions, ENUMS.ACTIVITY.INVESTING);
+        CashFlow.addReceipt(this.disposalValue, this.params.payments.disposals, ENUMS.ACTIVITY.INVESTING);
     }
 
     getEndState(): any {

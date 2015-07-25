@@ -236,7 +236,9 @@ export function initialize(lastState, currPeriod: number, CID) {
     o.Finance.init();
     o.Finance.register(o.ObjectsManager.retrieve("finance"));
 
-    o.CashFlow.init(o.game.daysNbByPeriod, lastState.tradePayablesValue);
+    var initialCashFlowBalance = lastState.cashFlowBalance || (lastState.netCashFlow + lastState.previousBalance) || (lastState.cashValue - lastState.banksOverdraft);
+
+    o.CashFlow.init(o.eurobankAccount, o.game.daysNbByPeriod, initialCashFlowBalance, lastState.tradePayablesValue);
 
     o.Company.init(o.CompanyParams, o.europe, o.Production.getInstance(), o.Marketing.getInstance(), o.Finance.getInstance(), o.Management);
 
@@ -441,9 +443,9 @@ export function setDecisions(dec) {
     o.eurobankAccount.changeTermDepositAmount(dec.term_deposit * 1000);
     o.eurobankAccount.takeTermLoans(dec.term_loans * 1000);
 
-    o.capital.changeSharesNb(dec.shares_variation);
+    o.capital.changeSharesNb(dec.shares_variation * 1000);
 
-    o.capital.payDividend(dec.dividend_rate);
+    o.capital.payDividend(dec.dividend / 100);
 }
 
 

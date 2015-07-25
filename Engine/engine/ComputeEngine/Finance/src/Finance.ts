@@ -94,12 +94,16 @@ class Finance {
         return Utils.sums(this.bankAccounts, "termLoans");
     }
 
-    get previousBalance(): number {
-        return Utils.sums(this.bankAccounts, "initialBalance");
+    get additionalLoans(): number {
+        return Utils.sums(this.bankAccounts, "additionalLoans");
     }
 
     get balance(): number {
         return Utils.sums(this.bankAccounts, "balance");
+    }
+
+    get cashValue(): number {
+        return Utils.sums(this.bankAccounts, "cash");
     }
 
     public static getEndState(): any {

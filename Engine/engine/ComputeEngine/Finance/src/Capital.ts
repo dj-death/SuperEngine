@@ -6,6 +6,9 @@ import Company = require('../../Company');
 
 import ObjectsManager = require('../../ObjectsManager');
 
+
+import CashFlow = require('./CashFlow');
+
 interface CapitalParams {
     shareNominalValue: number;
 
@@ -14,6 +17,8 @@ interface CapitalParams {
         minSharePriceToIssueShares: number;
         minSharePriceToRepurchaseShares: number;
     }
+
+    payments: ENUMS.PaymentArray;
 }
 
 class Capital {
@@ -25,13 +30,17 @@ class Capital {
         this.params = params;
     }
 
+    private initialShareCapital: number;
 
     private initialSharesNb: number;
     private openingSharePrice: number;
+
     private lastRetainedEarnings: number;
 
-    init(shareCapital: number, sharesNb: number, openingSharePrice: number, openingMarketValuation: number, lastRetainedEarnings: number) {
+    init(initialShareCapital: number, sharesNb: number, openingSharePrice: number, openingMarketValuation: number, lastRetainedEarnings: number) {
         this.reset();
+
+        this.initialShareCapital = initialShareCapital;
 
         this.initialSharesNb = sharesNb;
         this.openingSharePrice = openingSharePrice;
@@ -107,17 +116,20 @@ class Capital {
             return;
         }
 
-        var totalDividends = this.sharesNb * rate;
+        // on initial
+        var totalDividends = this.initialShareCapital * rate;
 
         if (totalDividends > this.lastRetainedEarnings) {
-
+            rate = this.lastRetainedEarnings / this.initialShareCapital;
         }
+
+        this.dividendRate = rate;
     }
 
     // cost
 
     get dividendPaid(): number {
-        return this.dividendRate * this.sharesNb;
+        return this.dividendRate * this.initialShareCapital;
     }
 
     get sharesIssued(): number {
@@ -126,6 +138,24 @@ class Capital {
 
     get sharesRepurchased(): number {
         return this.dividendRate * this.repurchasedSharesNb;
+    }
+
+    onFinish() {
+        CashFlow.addPayment(this.dividendPaid, this.params.payments, ENUMS.ACTIVITY.FINANCING);
+        CashFlow.addPayment(this.sharesRepurchased, this.params.payments, ENUMS.ACTIVITY.FINANCING);
+
+        CashFlow.addReceipt(this.sharesIssued, this.params.payments, ENUMS.ACTIVITY.FINANCING);
+    }
+
+    getEndState(): any {
+
+        var state = {
+            "sharesRepurchased": this.sharesRepurchased,
+            "sharesIssued": this.sharesIssued,
+            "dividendPaid": this.dividendPaid
+        };
+
+        return state;
     }
 }
 

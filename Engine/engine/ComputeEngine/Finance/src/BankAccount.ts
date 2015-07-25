@@ -39,7 +39,9 @@ class BankAccount {
 
         this.initialBalance = initialBalance;
 
-        this.credit = initialBalance;
+        this.credit = initialBalance > 0 ? initialBalance : 0;
+        this.debit = initialBalance < 0 ? Math.abs(initialBalance) : 0;
+
         this.termDeposit = lastTermDeposit;
         this.initialTermLoans = lastTermLoans;
         this.initialOverdraft = lastOverdraft;
@@ -133,10 +135,6 @@ class BankAccount {
 
         this.additionnelTermLoans += accordedTermLoans;
 
-        if (this.bank.params.termLoansAvailability === ENUMS.FUTURES.IMMEDIATE) {
-            this.balance += accordedTermLoans;
-        }
-
     }
 
     // repay last period loans
@@ -218,8 +216,21 @@ class BankAccount {
         return this.termLoansInterestPaid + this.overdraftInterestPaid;
     }
 
+    // this period receipts
+    get additionalLoans(): number {
+
+        if (this.bank.params.termLoansAvailability === ENUMS.FUTURES.IMMEDIATE) {
+            return this.additionnelTermLoans;
+        }
+
+        return 0;
+    }
+
     onFinish() {
         CashFlow.addPayment(this.interestPaid, this.params.payments, ENUMS.ACTIVITY.FINANCING);
+
+        CashFlow.addReceipt(this.interestReceived, this.params.payments, ENUMS.ACTIVITY.INVESTING);
+        CashFlow.addReceipt(this.additionalLoans, this.params.payments, ENUMS.ACTIVITY.FINANCING);
     }
 
     getEndState(): any {
@@ -232,7 +243,8 @@ class BankAccount {
             "termDeposit": this.termDeposit,
             "termLoansValue": this.termLoans,
             "previousBalance": this.initialBalance,
-            "balance": this.balance
+            "balance": this.balance,
+            "additionalLoans": this.additionalLoans
         };
 
         for (var key in state) {

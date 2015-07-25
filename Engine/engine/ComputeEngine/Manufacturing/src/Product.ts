@@ -508,11 +508,6 @@ class Product {
 
         CashFlow.addPayment(this.prodPlanningCost, this.params.payments.qualityControl);
 
-        console.log("guaranteeServicingCost", this.guaranteeServicingCost);
-        console.log("qualityControlCost", this.qualityControlCost); 
-        console.log("productDevelopmentCost", this.productDevelopmentCost); 
-
-        console.log("planning", this.prodPlanningCost); 
     }
 
     getEndState(): any {
